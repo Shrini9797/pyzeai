@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, FileText, Share, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
+import { X, Download, FileText, Share, TrendingUp, AlertTriangle, CheckCircle, Eye } from 'lucide-react';
 import { mockAnalysisData } from '../../services/mockData';
 import InsightCard from './InsightCard';
 import AutomationOpportunity from './AutomationOpportunity';
+import AgentFindingsExplorer from './AgentFindingsExplorer';
+import { generateComprehensivePDFReport } from '../../utils/reportGenerator';
 
 interface ReportModalProps {
   isOpen: boolean;
   onClose: () => void;
   onDownload: () => void;
+  selectedQuestion?: string;
 }
 
-const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, onDownload }) => {
+const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, onDownload, selectedQuestion }) => {
+  const [showFindingsExplorer, setShowFindingsExplorer] = useState(false);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -43,12 +47,19 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, onDownload }
 
               <div className="flex items-center space-x-3">
                 <button
-                  onClick={onDownload}
+                  onClick={() => setShowFindingsExplorer(true)}
                   className="flex items-center space-x-2 px-5 py-2.5 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 border border-white/30 shadow-lg"
                 >
-                  <Download className="w-4 h-4" />
-                  <span className="font-medium">Download PDF</span>
+                  <Eye className="w-4 h-4" />
+                  <span className="font-medium">Explore Findings</span>
                 </button>
+                      <button
+                        onClick={() => generateComprehensivePDFReport(selectedQuestion)}
+                        className="flex items-center space-x-2 px-5 py-2.5 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 border border-white/30 shadow-lg"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span className="font-medium">Download PDF</span>
+                      </button>
                 <button className="p-2.5 bg-white/10 rounded-xl text-white/80 hover:text-white hover:bg-white/20 transition-all duration-200">
                   <Share className="w-5 h-5" />
                 </button>
@@ -219,6 +230,18 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, onDownload }
           </motion.div>
         </motion.div>
       )}
+      
+      {/* Agent Findings Explorer Modal */}
+            <AgentFindingsExplorer
+              isOpen={showFindingsExplorer}
+              onClose={() => setShowFindingsExplorer(false)}
+              onDownload={onDownload}
+              selectedQuestion={selectedQuestion}
+              onHistoryItemClick={(question) => {
+                // This would need to be passed up to parent to update selectedQuestion
+                console.log('History item clicked:', question);
+              }}
+            />
     </AnimatePresence>
   );
 };

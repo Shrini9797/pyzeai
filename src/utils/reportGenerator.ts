@@ -1,5 +1,5 @@
 import html2pdf from 'html2pdf.js';
-import { mockAnalysisData } from '../services/mockData';
+import { mockAnalysisData, detailedFindings, questionSpecificData } from '../services/mockData';
 
 export const generateReportPDF = async () => {
   // Get the report modal content - capture the EXACT same report as shown in chat
@@ -89,15 +89,73 @@ export const generatePDFReport = async (selectedQuestion?: string) => {
   }
 };
 
+export const generateComprehensivePDFReport = async (selectedQuestion?: string) => {
+  const htmlContent = generateDetailedHTMLReport(selectedQuestion);
+  
+  // Create a temporary div to hold the HTML
+  const element = document.createElement('div');
+  element.innerHTML = htmlContent;
+  element.style.width = '210mm'; // A4 width
+  element.style.margin = '0 auto';
+  element.style.backgroundColor = 'white';
+
+  // Temporarily add to DOM for html2pdf processing
+  document.body.appendChild(element);
+
+  const options = {
+    margin: [10, 10, 10, 10] as [number, number, number, number],
+    filename: `PyZe_Agent_Findings_Explorer_${new Date().toISOString().split('T')[0]}.pdf`,
+    image: { type: 'jpeg' as const, quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      letterRendering: true,
+      width: 794, // A4 width in pixels at 96 DPI
+      height: 1123 // A4 height in pixels at 96 DPI
+    },
+    jsPDF: {
+      unit: 'mm' as const,
+      format: 'a4' as const,
+      orientation: 'portrait' as const,
+      compress: true
+    },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  try {
+    await html2pdf().set(options).from(element).save();
+  } finally {
+    // Clean up - remove the temporary element
+    document.body.removeChild(element);
+  }
+};
+
 export const generateDetailedHTMLReport = (selectedQuestion?: string) => {
+  // Get question-specific data if available
+  const getQuestionKey = (question?: string) => {
+    if (!question) return null;
+    const lowerQuestion = question.toLowerCase();
+    if (lowerQuestion.includes('swivel chair')) return 'swivel-chair';
+    if (lowerQuestion.includes('repeated edit')) return 'repeated-edits';
+    if (lowerQuestion.includes('inefficient routing')) return 'inefficient-routing';
+    if (lowerQuestion.includes('unnecessary approval')) return 'unnecessary-approvals';
+    if (lowerQuestion.includes('efficiency report')) return 'efficiency-report';
+    return null;
+  };
+  
+  const questionKey = getQuestionKey(selectedQuestion);
+  const questionData = questionKey ? questionSpecificData[questionKey as keyof typeof questionSpecificData] : null;
+
   const reportData = {
-    title: 'PyZe AI Automation - Agent Findings Explorer',
+    title: questionData ? questionData.title : 'PyZe AI Automation - Agent Findings Explorer',
     timestamp: new Date().toISOString(),
     selectedQuestion,
+    questionData,
     insights: mockAnalysisData.insights,
     automationOpportunities: mockAnalysisData.automationOpportunities,
     correlationFilter: mockAnalysisData.correlationFilter,
-    patternAnalysis: mockAnalysisData.patternAnalysis
+    patternAnalysis: mockAnalysisData.patternAnalysis,
+    detailedFindings: detailedFindings
   };
 
   // Generate detailed analysis based on the selected question
@@ -527,13 +585,77 @@ export const generateDetailedHTMLReport = (selectedQuestion?: string) => {
             <div class="section">
                 <h2 class="section-title">Executive Summary</h2>
                 <div class="metrics-grid">
-                    ${reportData.insights.map(insight => `
-                        <div class="metric-card">
-                            <div class="metric-value">${insight.value}</div>
-                            <div class="metric-label">${insight.title}</div>
-                            <div class="metric-description">${insight.description}</div>
+                    <div class="metric-card">
+                        <div class="metric-value">${reportData.detailedFindings.efficiencyMetrics.overallEfficiency}%</div>
+                        <div class="metric-label">Overall Efficiency</div>
+                        <div class="metric-description">Current operational efficiency with identified improvement areas</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">$${reportData.detailedFindings.efficiencyMetrics.costSavingsPotential.toLocaleString()}</div>
+                        <div class="metric-label">Cost Savings Potential</div>
+                        <div class="metric-description">Annual cost recovery through process automation</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">${reportData.detailedFindings.efficiencyMetrics.timeSavingsPotential}h</div>
+                        <div class="metric-label">Time Savings Daily</div>
+                        <div class="metric-description">Average time saved per day through automation</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">${reportData.detailedFindings.efficiencyMetrics.automationReadiness}%</div>
+                        <div class="metric-label">Automation Readiness</div>
+                        <div class="metric-description">Process readiness for automation implementation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section page-break">
+                <h2 class="section-title">User Behavior Patterns Analysis</h2>
+                <div class="detailed-analysis">
+                    ${reportData.detailedFindings.userBehaviorPatterns.map(pattern => `
+                        <div class="analysis-card">
+                            <h3>${pattern.pattern}</h3>
+                            <p><strong>Frequency:</strong> ${pattern.frequency} instances detected</p>
+                            <p><strong>Impact Level:</strong> ${pattern.impact.toUpperCase()}</p>
+                            <p><strong>Description:</strong> ${pattern.description}</p>
+                            <p><strong>Time Lost:</strong> ${pattern.timeLost}</p>
+                            <p><strong>Cost Impact:</strong> ${pattern.costImpact}</p>
+                            <p><strong>Recommendation:</strong> ${pattern.recommendation}</p>
                         </div>
                     `).join('')}
+                </div>
+            </div>
+
+            <div class="section page-break">
+                <h2 class="section-title">System Analysis & Usage Patterns</h2>
+                <div class="two-column">
+                    <div class="analysis-card">
+                        <h3>Most Used Systems</h3>
+                        ${reportData.detailedFindings.systemAnalysis.mostUsedSystems.map(system => `
+                            <div style="margin-bottom: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <div style="display: flex; justify-content: between; align-items: center;">
+                                    <span style="font-weight: 600; color: #2d3748;">${system.name}</span>
+                                    <span style="color: #667eea; font-weight: bold;">${system.usage}%</span>
+                                </div>
+                                <div style="font-size: 11px; color: #4a5568; margin-top: 5px;">
+                                    Efficiency: ${system.efficiency}%
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="analysis-card">
+                        <h3>Workflow Stage Analysis</h3>
+                        ${reportData.detailedFindings.systemAnalysis.workflowStages.map(stage => `
+                            <div style="margin-bottom: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #10b981;">
+                                <div style="display: flex; justify-content: between; align-items: center;">
+                                    <span style="font-weight: 600; color: #2d3748;">${stage.stage}</span>
+                                    <span style="color: #10b981; font-weight: bold;">${stage.time}m</span>
+                                </div>
+                                <div style="font-size: 11px; color: #4a5568; margin-top: 5px;">
+                                    Efficiency: ${stage.efficiency}%
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             </div>
 
@@ -578,17 +700,20 @@ export const generateDetailedHTMLReport = (selectedQuestion?: string) => {
             </div>
 
             <div class="section page-break">
-                <h2 class="section-title">Automation Opportunities</h2>
-                ${reportData.automationOpportunities.map((opportunity, index) => `
+                <h2 class="section-title">Detailed Automation Recommendations</h2>
+                ${reportData.detailedFindings.recommendations.map((rec, index) => `
                     <div class="opportunity">
-                        <div class="opportunity-title">${index + 1}. ${opportunity.title}</div>
+                        <div class="opportunity-title">${index + 1}. ${rec.title}</div>
                         <div class="opportunity-meta">
-                            Category: ${opportunity.category} |
-                            Impact: ${opportunity.impact} |
-                            Effort: ${opportunity.effort} |
-                            <span class="roi-highlight">ROI: ${opportunity.roi}%</span>
+                            Priority: ${rec.priority.toUpperCase()} |
+                            Implementation: ${rec.implementation} |
+                            Cost: ${rec.cost} |
+                            <span class="roi-highlight">ROI: ${rec.roi}%</span>
                         </div>
-                        <div class="opportunity-description">${opportunity.description}</div>
+                        <div class="opportunity-description">${rec.description}</div>
+                        <div style="margin-top: 10px; padding: 8px; background: #f0f9ff; border-radius: 6px; border-left: 3px solid #0ea5e9;">
+                            <strong>Expected Impact:</strong> ${rec.impact}
+                        </div>
                     </div>
                 `).join('')}
             </div>

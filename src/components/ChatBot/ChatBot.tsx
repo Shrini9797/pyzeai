@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Mic, Paperclip } from 'lucide-react';
+import { MessageCircle, X, Send, Mic, Paperclip, RefreshCw } from 'lucide-react';
 import { Message, ChatState } from '../../types';
 import { predefinedQuestions } from '../../services/mockData';
 import { useAppContext } from '../../App';
@@ -81,6 +81,18 @@ const ChatBot: React.FC = () => {
     addMessage('Analysis complete! I\'ve identified key patterns and automation opportunities. Click "View Detailed Report" to see comprehensive insights.', 'bot');
   };
 
+  const handleRefresh = () => {
+    setChatState({
+      messages: [],
+      isProcessing: false,
+      agents: [],
+      currentStep: 0,
+      showReport: false
+    });
+    setInputValue('');
+    setSelectedQuestion('');
+  };
+
   return (
     <>
       {/* Chat Bubble */}
@@ -140,12 +152,21 @@ const ChatBot: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-slate-700 transition-colors bg-white/50 hover:bg-white rounded-xl p-2"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={handleRefresh}
+                  className="text-slate-400 hover:text-slate-700 transition-colors bg-white/50 hover:bg-white rounded-xl p-2"
+                  title="Refresh chat"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-slate-400 hover:text-slate-700 transition-colors bg-white/50 hover:bg-white rounded-xl p-2"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Messages Area */}
