@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Brain } from 'lucide-react';
+import { MessageCircle, X, Send, Mic, Paperclip } from 'lucide-react';
 import { Message, ChatState } from '../../types';
 import { predefinedQuestions } from '../../services/mockData';
 import { useAppContext } from '../../App';
@@ -94,24 +94,24 @@ const ChatBot: React.FC = () => {
           {!isOpen && (
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="glass-light rounded-full p-4 shadow-2xl hover:scale-110 transition-transform duration-300"
+              className="bg-white/95 backdrop-blur-xl rounded-full p-5 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 border border-white/50"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               exit={{ scale: 0 }}
             >
-              <MessageCircle className="w-6 h-6 text-facebook-600" />
+              <MessageCircle className="w-7 h-7 text-blue-600" />
 
               {/* Notification Badge */}
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-facebook-500 to-teal-500 rounded-full animate-pulse"></div>
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse"></div>
 
               {/* Floating Help Text */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 whitespace-nowrap"
+                className="absolute right-full mr-4 top-1/2 transform -translate-y-1/2 whitespace-nowrap"
               >
-                <div className="glass-light rounded-lg px-3 py-2 text-sm text-gray-900">
-                  Start AI Analysis
+                <div className="bg-white/95 backdrop-blur-xl rounded-xl px-4 py-2 text-sm text-slate-700 font-medium shadow-lg border border-white/50">
+                  AI Assistant
                 </div>
               </motion.div>
             </motion.button>
@@ -127,34 +127,33 @@ const ChatBot: React.FC = () => {
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: 400, y: 100 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-6 right-6 w-96 h-[600px] glass-light rounded-2xl shadow-2xl z-50 overflow-hidden"
+            className="fixed bottom-6 right-6 w-[420px] h-[680px] bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl z-50 overflow-hidden border border-white/60"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between p-5 border-b border-slate-200/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-facebook-500 to-teal-500 rounded-full flex items-center justify-center">
-                  <Brain className="w-4 h-4 text-white" />
-                </div>
                 <div>
-                  <h3 className="text-gray-900 font-semibold">PyZe AI Assistant</h3>
-                  <p className="text-xs text-gray-500">Multi-Agent Analysis</p>
+                  <h3 className="text-slate-900 font-bold text-base">AI Assistant</h3>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <p className="text-xs text-slate-500">Online</p>
+                  </div>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-500 hover:text-gray-900 transition-colors duration-200"
+                className="text-slate-400 hover:text-slate-700 transition-colors bg-white/50 hover:bg-white rounded-xl p-2"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 h-96">
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 h-[480px] bg-gradient-to-b from-transparent to-blue-50/20">
               {chatState.messages.length === 0 ? (
                 <div className="text-center py-8">
-                  <Brain className="w-12 h-12 text-facebook-500 mx-auto mb-4" />
-                  <h4 className="text-gray-900 font-semibold mb-2">Welcome to PyZe AI</h4>
-                  <p className="text-gray-600 text-sm mb-6">
+                  <h4 className="text-slate-900 font-bold text-lg mb-2">Welcome to PyZe AI</h4>
+                  <p className="text-slate-600 text-sm mb-6 px-4">
                     I can help you analyze workflow patterns and identify automation opportunities.
                   </p>
                   <PredefinedQuestions
@@ -176,7 +175,7 @@ const ChatBot: React.FC = () => {
                     <motion.button
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="w-full py-3 bg-gradient-to-r from-facebook-500 to-teal-500 text-white rounded-lg font-semibold hover:from-facebook-600 hover:to-teal-600 transition-all duration-300"
+                      className="w-full py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-2xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl"
                       onClick={() => setShowReport(true)}
                     >
                       📊 View Detailed Report
@@ -188,21 +187,28 @@ const ChatBot: React.FC = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 border-t border-gray-200">
-              <div className="flex space-x-2">
+            <div className="p-5 border-t border-slate-200/50 bg-white/80 backdrop-blur-xl">
+              <div className="flex items-center space-x-2">
+                <button className="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">
+                  <Paperclip className="w-5 h-5 text-slate-600" />
+                </button>
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Ask about your processes..."
-                  className="flex-1 bg-gray-100 text-gray-900 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-facebook-500 text-sm"
+                  placeholder="Enter Task for AI Assistant"
+                  className="flex-1 bg-slate-100 text-slate-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm placeholder-slate-500"
                 />
+                <button className="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">
+                  <Mic className="w-5 h-5 text-slate-600" />
+                </button>
                 <button
                   onClick={handleSendMessage}
-                  className="bg-gradient-to-r from-facebook-500 to-teal-500 text-white rounded-lg px-4 py-2 hover:from-facebook-600 hover:to-teal-600 transition-all duration-300"
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl p-3 hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50"
+                  disabled={!inputValue.trim()}
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-5 h-5" />
                 </button>
               </div>
             </div>

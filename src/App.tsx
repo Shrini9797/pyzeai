@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext } from 'react';
 import Dashboard from './components/Dashboard/Dashboard';
 import ChatBot from './components/ChatBot/ChatBot';
 import ReportModal from './components/Report/ReportModal';
-import { generatePDFReport } from './utils/reportGenerator';
+import { generateReportPDF } from './utils/reportGenerator';
 
 interface AppContextType {
   showReport: boolean;
@@ -26,7 +26,7 @@ function App() {
   const [selectedQuestion, setSelectedQuestion] = useState<string>('');
 
   const handleDownloadReport = () => {
-    generatePDFReport(selectedQuestion);
+    generateReportPDF();
   };
 
   return (

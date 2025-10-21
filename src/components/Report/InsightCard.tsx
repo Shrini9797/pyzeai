@@ -22,11 +22,11 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight }) => {
   const getImportanceColor = () => {
     switch (insight.importance) {
       case 'critical':
-        return 'border-facebook-200 bg-gradient-to-br from-facebook-50 to-facebook-100';
+        return 'border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100';
       case 'important':
-        return 'border-teal-200 bg-gradient-to-br from-teal-50 to-teal-100';
+        return 'border-cyan-200 bg-gradient-to-br from-cyan-50 to-cyan-100';
       default:
-        return 'border-facebook-200 bg-gradient-to-br from-facebook-50 to-teal-50';
+        return 'border-slate-200 bg-gradient-to-br from-white to-slate-50';
     }
   };
 
@@ -34,24 +34,24 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight }) => {
     switch (insight.importance) {
       case 'critical':
         return {
-          title: 'text-facebook-900',
-          value: 'text-facebook-900',
-          description: 'text-facebook-700',
-          badge: 'bg-facebook-200 text-facebook-900'
+          title: 'text-blue-900',
+          value: 'text-blue-900',
+          description: 'text-blue-700',
+          badge: 'bg-blue-200 text-blue-900'
         };
       case 'important':
         return {
-          title: 'text-teal-900',
-          value: 'text-teal-900',
-          description: 'text-teal-700',
-          badge: 'bg-teal-200 text-teal-900'
+          title: 'text-cyan-900',
+          value: 'text-cyan-900',
+          description: 'text-cyan-700',
+          badge: 'bg-cyan-200 text-cyan-900'
         };
       default:
         return {
-          title: 'text-facebook-800',
-          value: 'text-facebook-900',
-          description: 'text-gray-700',
-          badge: 'bg-teal-100 text-teal-900'
+          title: 'text-slate-800',
+          value: 'text-slate-900',
+          description: 'text-slate-700',
+          badge: 'bg-slate-100 text-slate-900'
         };
     }
   };
@@ -60,20 +60,20 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight }) => {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
-      className={`rounded-lg p-4 border ${getImportanceColor()}`}
+      whileHover={{ scale: 1.02, y: -4 }}
+      className={`rounded-2xl p-5 border shadow-md hover:shadow-lg transition-all ${getImportanceColor()}`}
     >
-      <div className="flex items-start justify-between mb-2">
-        <h4 className={`${textColors.title} font-semibold text-sm`}>{insight.title}</h4>
+      <div className="flex items-start justify-between mb-3">
+        <h4 className={`${textColors.title} font-bold text-sm`}>{insight.title}</h4>
         {getTrendIcon()}
       </div>
 
-      <div className={`text-2xl font-bold ${textColors.value} mb-1`}>{insight.value}</div>
+      <div className={`text-3xl font-bold ${textColors.value} mb-2`}>{insight.value}</div>
 
-      <p className={`${textColors.description} text-xs leading-relaxed`}>{insight.description}</p>
+      <p className={`${textColors.description} text-xs leading-relaxed mb-3`}>{insight.description}</p>
 
       <div className="mt-2">
-        <span className={`inline-block px-2 py-1 text-xs rounded-full ${textColors.badge}`}>
+        <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-lg ${textColors.badge}`}>
           {insight.importance}
         </span>
       </div>

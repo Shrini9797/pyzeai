@@ -121,8 +121,8 @@ export const predefinedQuestions = [
 export const agentConfigurations = [
   {
     id: 'correlation-filter',
-    name: 'Correlation Filter Agent',
-    description: 'Filtering and processing data correlations',
+    name: 'Data Intelligence Engine',
+    description: 'Advanced correlation analysis and insight extraction',
     duration: 3000,
     steps: [
       'Loading 1,275 records...',
@@ -133,8 +133,8 @@ export const agentConfigurations = [
   },
   {
     id: 'pattern-analysis',
-    name: 'Pattern Analysis Agent',
-    description: 'Analyzing behavioral patterns and inefficiencies',
+    name: 'Behavioral Pattern Detective',
+    description: 'AI-powered workflow inefficiency detection',
     duration: 4000,
     steps: [
       'Scanning user behavior patterns...',
@@ -145,8 +145,8 @@ export const agentConfigurations = [
   },
   {
     id: 'hypothesis-generation',
-    name: 'Hypothesis Generation Agent',
-    description: 'Creating automation hypotheses and opportunities',
+    name: 'Automation Opportunity Scout',
+    description: 'Intelligent automation strategy development',
     duration: 3000,
     steps: [
       'Generating automation hypotheses...',
@@ -157,8 +157,8 @@ export const agentConfigurations = [
   },
   {
     id: 'root-cause-analysis',
-    name: 'Root Cause Analysis Agent',
-    description: 'Deep analysis of process inefficiencies',
+    name: 'Process Optimization Analyst',
+    description: 'Deep-dive workflow bottleneck investigation',
     duration: 5000,
     steps: [
       'Analyzing workflow bottlenecks...',
@@ -169,8 +169,8 @@ export const agentConfigurations = [
   },
   {
     id: 'report-generation',
-    name: 'Report Generation Agent',
-    description: 'Compiling comprehensive insights and recommendations',
+    name: 'Executive Intelligence Reporter',
+    description: 'AI-powered strategic insights compilation',
     duration: 2000,
     steps: [
       'Compiling analysis results...',

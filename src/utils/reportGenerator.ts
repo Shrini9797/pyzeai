@@ -1,6 +1,52 @@
 import html2pdf from 'html2pdf.js';
 import { mockAnalysisData } from '../services/mockData';
 
+export const generateReportPDF = async () => {
+  // Get the report modal content - capture the EXACT same report as shown in chat
+  const reportElement = document.querySelector('.bg-white.rounded-3xl') as HTMLElement;
+  
+  if (!reportElement) {
+    console.error('Report modal element not found');
+    return;
+  }
+
+  // Capture the exact same report as displayed - no modifications, no regeneration
+  const options = {
+    margin: [5, 5, 5, 5] as [number, number, number, number],
+    filename: `PyZe_AI_Report_${new Date().toISOString().split('T')[0]}.pdf`,
+    image: { type: 'jpeg' as const, quality: 0.95 },
+    html2canvas: {
+      scale: 1.5, // Lower scale for exact capture
+      useCORS: true,
+      letterRendering: true,
+      allowTaint: true,
+      backgroundColor: null, // Keep original background
+      logging: false,
+      // Capture exact report dimensions
+      width: reportElement.scrollWidth,
+      height: reportElement.scrollHeight,
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight
+    },
+    jsPDF: {
+      unit: 'mm' as const,
+      format: 'a4' as const,
+      orientation: 'portrait' as const,
+      compress: true
+    },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  try {
+    // Capture the exact same report without any modifications
+    await html2pdf().set(options).from(reportElement).save();
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+  }
+};
+
 export const generatePDFReport = async (selectedQuestion?: string) => {
   // Generate the HTML content
   const htmlContent = generateDetailedHTMLReport(selectedQuestion);

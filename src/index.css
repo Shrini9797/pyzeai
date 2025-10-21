@@ -10,10 +10,10 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #a5d8f5 100%);
     min-height: 100vh;
     overflow-x: hidden;
-    color: #1f2937;
+    color: #334155;
   }
 
   code {
@@ -24,37 +24,51 @@
 
 @layer components {
   .glass {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   }
 
   .glass-light {
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(24, 119, 242, 0.1);
-    box-shadow: 0 8px 32px rgba(24, 119, 242, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   }
 
   .card-light {
     background: #ffffff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(100, 116, 139, 0.08);
+    border-radius: 16px;
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, #1877f2 0%, #14b8a6 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .gradient-facebook {
-    background: linear-gradient(135deg, #1877f2 0%, #4267b2 100%);
+  .gradient-blue {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
   }
 
-  .gradient-teal {
-    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  .gradient-cyan {
+    background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  }
+
+  .metric-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(100, 116, 139, 0.1);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.3s ease;
+  }
+
+  .metric-card:hover {
+    box-shadow: 0 8px 32px rgba(100, 116, 139, 0.15);
+    transform: translateY(-2px);
   }
 }

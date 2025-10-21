@@ -1,32 +1,35 @@
 import React from 'react';
-import { Brain } from 'lucide-react';
+import { Settings, Bell, User } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (
-    <header className="border-b border-gray-200 bg-white">
+    <header className="border-b border-white/30 bg-white/60 backdrop-blur-xl shadow-sm">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-facebook-500 rounded-lg">
-              <Brain className="w-6 h-6 text-white" />
-            </div>
             <div>
-              <h1 className="text-lg font-bold text-gray-900">PyZe AI</h1>
-              <p className="text-xs text-gray-500">Automation Platform</p>
+              <h1 className="text-xl font-bold text-slate-800">PyZe AI</h1>
+              <p className="text-xs text-slate-500">Automation Dashboard</p>
             </div>
           </div>
 
-          {/* Simple Status */}
-          <div className="text-right">
-            <p className="text-sm text-gray-600">Status: Active</p>
-            <p className="text-xs text-gray-400">Ready for analysis</p>
+          {/* Action Buttons */}
+          <div className="flex items-center space-x-3">
+            <button className="p-2.5 bg-white/80 rounded-xl hover:bg-white transition-colors shadow-sm">
+              <Bell className="w-5 h-5 text-slate-600" />
+            </button>
+            <button className="p-2.5 bg-white/80 rounded-xl hover:bg-white transition-colors shadow-sm">
+              <Settings className="w-5 h-5 text-slate-600" />
+            </button>
+            <button className="p-2.5 bg-white/80 rounded-xl hover:bg-white transition-colors shadow-sm">
+              <User className="w-5 h-5 text-slate-600" />
+            </button>
           </div>
         </div>
       </div>
     </header>
   );
 };
-
 
 export default Header;

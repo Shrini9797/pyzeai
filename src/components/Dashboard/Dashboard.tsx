@@ -1,218 +1,224 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { TrendingUp, Zap, Target, Users, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { TrendingUp, DollarSign, FileText, AlertCircle, Clock, CheckCircle, BarChart3, Activity } from 'lucide-react';
 import MetricCard from './MetricCard';
 import Header from './Header';
 
 const Dashboard: React.FC = () => {
+  const [activeClient, setActiveClient] = useState(0);
+  
+  const clients = [
+    { name: 'Customer Onboarding', id: 'WF-1232', revenue: '847 Cases', color: 'from-blue-400 to-blue-500' },
+    { name: 'Approval Workflow', id: 'WF-2563', revenue: '291 Tasks', color: 'from-cyan-400 to-cyan-500' },
+    { name: 'Data Processing', id: 'WF-5732', revenue: '1.2K Records', color: 'from-blue-500 to-blue-600' },
+    { name: 'Invoice Handling', id: 'WF-3864', revenue: '456 Items', color: 'from-sky-400 to-sky-500' },
+    { name: 'Quality Review', id: 'WF-4821', revenue: '623 Reviews', color: 'from-blue-300 to-blue-400' },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveClient((prev) => (prev + 1) % clients.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [clients.length]);
+
   const metrics = [
     {
       title: 'Workflow Efficiency',
       value: '67/100',
       subtitle: 'Current operational efficiency',
+      subMetrics: [
+        { label: 'Automated', value: '584', max: '847' },
+        { label: 'Manual Review', value: '263', max: '' }
+      ],
       icon: TrendingUp,
       change: '+12%',
-      trend: 'up' as const
+      trend: 'up' as const,
+      status: 'positive' as const
     },
     {
       title: 'Cost Recovery',
       value: '$127K',
       subtitle: 'Annual automation potential',
-      icon: Zap,
+      subMetrics: [
+        { label: 'Identified', value: '$127K', max: '' },
+        { label: 'In Progress', value: '$45K', max: '' }
+      ],
+      icon: DollarSign,
       change: '+$23K',
-      trend: 'up' as const
+      trend: 'up' as const,
+      status: 'positive' as const
     },
     {
       title: 'Active Processes',
       value: '847',
       subtitle: 'Actionable insights identified',
-      icon: Target,
+      subMetrics: [
+        { label: 'High Priority', value: '234', max: '' },
+        { label: 'Total Analyzed', value: '1,275', max: '' }
+      ],
+      icon: AlertCircle,
       change: '+156',
-      trend: 'up' as const
+      trend: 'up' as const,
+      status: 'positive' as const
+    }
+  ];
+
+  const secondaryMetrics = [
+    {
+      title: 'Automation Opportunities',
+      value: '78%',
+      subtitle: 'Process Automation Readiness',
+      stats: [
+        { label: 'High Impact', value: '12', status: 'success' },
+        { label: 'Medium Impact', value: '8', status: 'warning' },
+        { label: 'Low Effort', value: '15', status: 'info' },
+        { label: 'Quick Wins', value: '6', status: 'success' }
+      ],
+      icon: Clock
     },
     {
       title: 'Time Savings',
       value: '2.3 min',
-      subtitle: 'Average per case automation',
-      icon: Users,
-      change: '+0.4 min',
-      trend: 'up' as const
-    }
-  ];
-
-  const features = [
-    {
-      title: 'AI-Powered Analysis',
-      description: 'Multi-agent system analyzes your workflow patterns and identifies automation opportunities',
-      icon: TrendingUp,
-      gradient: 'from-facebook-500 to-teal-500'
-    },
-    {
-      title: 'Smart Recommendations',
-      description: 'Get personalized automation suggestions based on your specific business processes',
-      icon: Zap,
-      gradient: 'from-teal-500 to-facebook-500'
-    },
-    {
-      title: 'ROI Tracking',
-      description: 'Monitor cost savings and efficiency improvements with detailed analytics',
-      icon: Target,
-      gradient: 'from-facebook-500 to-teal-500'
+      subtitle: 'Average Per Case Automation',
+      stats: [
+        { label: 'Per Process', value: '2.3m', status: 'success' },
+        { label: 'Daily Total', value: '4.2h', status: 'success' },
+        { label: 'Weekly Saved', value: '21h', status: 'info' },
+        { label: 'Monthly Impact', value: '84h', status: 'success' }
+      ],
+      icon: BarChart3
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50 relative overflow-hidden">
-      {/* Animated floating elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-facebook-200 to-teal-200 rounded-full opacity-20 blur-xl"
-        />
-        <motion.div
-          animate={{
-            x: [0, -80, 0],
-            y: [0, 100, 0],
-            rotate: [360, 180, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute top-40 right-32 w-48 h-48 bg-gradient-to-r from-teal-200 to-facebook-200 rounded-full opacity-15 blur-xl"
-        />
-        <motion.div
-          animate={{
-            x: [0, 60, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute bottom-32 left-1/3 w-24 h-24 bg-gradient-to-r from-facebook-300 to-teal-300 rounded-full opacity-25 blur-lg"
-        />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-100 relative overflow-hidden pb-24">
+      <Header />
 
-      <div className="relative z-10">
-        <Header />
+      {/* Main Dashboard Content */}
+      <main className="container mx-auto px-6 py-6">
+        {/* Top Section - Client Data Carousel */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-sm font-medium text-slate-900 mb-1">AI-Powered Workflow Analysis</h2>
+              <h1 className="text-4xl font-bold text-slate-900">Active Process Monitoring</h1>
+            </div>
+            
+            {/* Active Client Badge */}
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl px-6 py-3 shadow-lg border border-white/40">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span className="text-xs text-slate-500">Workflow:</span>
+                  <span className="text-sm font-semibold text-slate-800">{clients[activeClient].name}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span className="text-xs text-slate-500">ID:</span>
+                  <span className="text-sm font-semibold text-slate-800">{clients[activeClient].id}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs text-slate-500">Status:</span>
+                  <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Analyzing</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        {/* Main Dashboard Content */}
-        <main className="container mx-auto px-6 py-8">
-          {/* Hero Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              <span className="bg-gradient-to-r from-facebook-600 to-teal-600 bg-clip-text text-transparent">
-                PyZe AI Automation
-              </span>
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Transform your workflows with intelligent automation. Discover opportunities, optimize processes, and maximize efficiency.
-            </p>
-          </motion.div>
-
-          {/* Metrics Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-          >
-            {metrics.map((metric, index) => (
-              <motion.div
-                key={metric.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+          {/* Client Cards - Simple Grid View */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
+            {clients.map((client, index) => (
+              <div
+                key={client.id}
+                className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-lg border border-white/60 overflow-hidden"
               >
-                <MetricCard {...metric} />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Features Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mb-16"
-          >
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Powerful AI-Driven Features
-              </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Our advanced multi-agent system provides comprehensive workflow analysis and actionable automation insights.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((feature, index) => {
-                const IconComponent = feature.icon;
-                return (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-                    className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  >
-                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${feature.gradient} p-2.5 mb-4`}>
-                      <IconComponent className="w-full h-full text-white" />
+                <div className={`h-full bg-gradient-to-br ${client.color} p-6 flex flex-col justify-between`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center">
+                      <Activity className="w-4 h-4 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-gray-600">
-                      {feature.description}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-white font-bold text-lg mb-1">{client.name}</h3>
+                    <p className="text-white/80 text-xs mb-4">{client.id}</p>
+                    
+                    <div>
+                      <p className="text-white/80 text-xs mb-1">Volume</p>
+                      <p className="text-white text-2xl font-bold flex items-center">
+                        {client.revenue}
+                        <span className="ml-2 text-xs bg-white/20 px-2 py-1 rounded-full">↑</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          {/* Call to Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-center bg-gradient-to-r from-facebook-500 to-teal-500 rounded-2xl p-8 text-white"
-          >
-            <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Workflows?</h3>
-            <p className="text-facebook-100 mb-6 max-w-2xl mx-auto">
-              Start analyzing your workflows with AI-powered insights. Click the chat assistant to begin your automation journey.
-            </p>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center space-x-2 bg-white text-facebook-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors cursor-pointer"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="w-5 h-5" />
-            </motion.div>
-          </motion.div>
-        </main>
-      </div>
+        {/* Main Metrics Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {metrics.map((metric, index) => (
+            <div key={metric.title}>
+              <MetricCard {...metric} />
+            </div>
+          ))}
+        </div>
+
+        {/* Secondary Metrics Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {secondaryMetrics.map((metric, index) => {
+            const IconComponent = metric.icon;
+            return (
+              <div
+                key={metric.title}
+                className="metric-card p-6"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-gradient-to-r from-slate-600 to-slate-700 rounded-lg">
+                      <IconComponent className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-slate-900">{metric.title}</h3>
+                    </div>
+                  </div>
+                  <button className="text-slate-400 hover:text-slate-600">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <div className="mb-4">
+                  <p className="text-sm text-slate-500 mb-1">{metric.subtitle}</p>
+                  <h2 className="text-4xl font-bold text-slate-900">{metric.value}</h2>
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  {metric.stats.map((stat, idx) => (
+                    <div key={idx} className="flex items-center justify-between">
+                      <span className="text-xs text-slate-600">{stat.label}</span>
+                      <div className="flex items-center space-x-1">
+                        <span className={`text-sm font-semibold ${
+                          stat.status === 'success' ? 'text-green-600' :
+                          stat.status === 'warning' ? 'text-amber-600' :
+                          'text-blue-600'
+                        }`}>{stat.value}</span>
+                        {stat.status === 'success' && <CheckCircle className="w-3 h-3 text-green-500" />}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </main>
     </div>
   );
 };
-
 
 export default Dashboard;
