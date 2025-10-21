@@ -1,25 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, createContext, useContext } from 'react';
+import Dashboard from './components/Dashboard/Dashboard';
+import ChatBot from './components/ChatBot/ChatBot';
+import ReportModal from './components/Report/ReportModal';
+import { generatePDFReport } from './utils/reportGenerator';
+
+interface AppContextType {
+  showReport: boolean;
+  setShowReport: (show: boolean) => void;
+  selectedQuestion?: string;
+  setSelectedQuestion: (question: string) => void;
+}
+
+const AppContext = createContext<AppContextType | undefined>(undefined);
+
+export const useAppContext = () => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('useAppContext must be used within AppProvider');
+  }
+  return context;
+};
 
 function App() {
+  const [showReport, setShowReport] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState<string>('');
+
+  const handleDownloadReport = () => {
+    generatePDFReport(selectedQuestion);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={{ showReport, setShowReport, selectedQuestion, setSelectedQuestion }}>
+      <div className="App">
+        <Dashboard />
+        <ChatBot />
+        <ReportModal
+          isOpen={showReport}
+          onClose={() => setShowReport(false)}
+          onDownload={handleDownloadReport}
+        />
+      </div>
+    </AppContext.Provider>
   );
 }
 
