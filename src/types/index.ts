@@ -138,6 +138,17 @@ export interface DetailedFindings {
   recommendations: DetailedRecommendation[];
 }
 
+export interface Question {
+  id: string;
+  text: string;
+  description: string;
+  icon: string;
+  category: string;
+  impact: string;
+  estimatedTime: string;
+  color: string;
+}
+
 export interface QuestionSpecificData {
   title: string;
   description: string;
@@ -247,4 +258,14 @@ export interface EfficiencyReportData {
     savings: string;
     initiatives: string[];
   }>;
+}
+
+export interface EnterpriseRow {
+  no: number;
+  customerName: string;
+  enterpriseSystem: string;
+  dataCollectedFrom: string;
+  dataCollectedTo: string;
+  lastAnalysisDate: string;
+  lastAnalysisResults: string;
 }

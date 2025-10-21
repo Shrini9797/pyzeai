@@ -54,9 +54,9 @@ const AgentProcessing: React.FC<AgentProcessingProps> = ({ onComplete }) => {
       
       // More realistic metrics based on actual processing
       if (currentStepIndex < currentAgent.steps.length) {
-        const baseRecords = [1523, 1523, 847, 847, 45];
-        const basePatterns = [847, 291, 67, 42, 1];
-        const confidenceBase = [92, 88, 84, 90, 95];
+        const baseRecords = [2800000, 2800000, 1850000, 1850000, 18500];
+        const basePatterns = [1850000, 125000, 18500, 12600, 18];
+        const confidenceBase = [94, 91, 87, 92, 96];
         
         const progressRatio = (currentStepIndex + 1) / currentAgent.steps.length;
         
@@ -374,14 +374,14 @@ const AgentProcessing: React.FC<AgentProcessingProps> = ({ onComplete }) => {
                     <Database className="w-3 h-3 text-blue-600" />
                     <span className="text-[10px] text-slate-600 font-medium">Records</span>
                   </div>
-                  <p className="text-sm font-bold text-slate-900">1,523</p>
+                  <p className="text-sm font-bold text-slate-900">2.8M</p>
                 </div>
                 <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2 border border-green-100">
                   <div className="flex items-center justify-center gap-1 mb-1">
                     <Zap className="w-3 h-3 text-green-600" />
                     <span className="text-[10px] text-slate-600 font-medium">Insights</span>
                   </div>
-                  <p className="text-sm font-bold text-slate-900">847</p>
+                  <p className="text-sm font-bold text-slate-900">1.85M</p>
                 </div>
               </div>
               

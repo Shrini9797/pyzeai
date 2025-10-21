@@ -2,84 +2,84 @@ import { MockData } from '../types';
 
 export const mockAnalysisData: MockData = {
   correlationFilter: {
-    totalRecords: 1275,
-    actionableInsights: 847,
-    processingTime: 3.2
+    totalRecords: 2800000,
+    actionableInsights: 1850000,
+    processingTime: 4.7
   },
   patternAnalysis: {
-    swivelChairCases: 291,
-    repeatedEdits: 156,
-    workflowBottlenecks: 45
+    swivelChairCases: 125000,
+    repeatedEdits: 89000,
+    workflowBottlenecks: 15000
   },
   automationOpportunities: [
     {
       id: '1',
-      title: 'Customer Profile Integration',
-      description: 'Automate data sync between CRM and Customer Profile system to eliminate 291 manual switches',
+      title: 'Salesforce-Oracle Financials Integration',
+      description: 'Automate data sync between Salesforce and Oracle Financials to eliminate 125,000 manual switches across enterprise systems',
       impact: 'high',
       effort: 'medium',
-      roi: 285,
+      roi: 485,
       category: 'System Integration'
     },
     {
       id: '2',
-      title: 'Smart Field Validation',
-      description: 'Implement intelligent form validation to reduce 156 repeated edit instances',
+      title: 'Enterprise Form Validation',
+      description: 'Implement intelligent form validation across SAP ERP and Workday to reduce 89,000 repeated edit instances',
       impact: 'high',
       effort: 'low',
-      roi: 180,
+      roi: 380,
       category: 'Process Optimization'
     },
     {
       id: '3',
-      title: 'Approval Workflow Automation',
-      description: 'Streamline approval processes to recover 45% time loss in workflow stages',
-      impact: 'medium',
+      title: 'ServiceNow Approval Automation',
+      description: 'Streamline ServiceNow approval processes to recover 65% time loss affecting 15,000 enterprise workflow bottlenecks',
+      impact: 'high',
       effort: 'high',
-      roi: 220,
+      roi: 620,
       category: 'Workflow Management'
     },
     {
       id: '4',
-      title: 'Predictive Routing',
-      description: 'AI-powered case routing to eliminate wrong department assignments',
-      impact: 'medium',
+      title: 'Enterprise AI Routing',
+      description: 'AI-powered case routing across Oracle E-Business and SAP Ariba to eliminate wrong department assignments in Fortune 500 operations',
+      impact: 'high',
       effort: 'medium',
-      roi: 125,
+      roi: 425,
       category: 'Intelligent Routing'
     }
   ],
   insights: [
     {
       id: '1',
-      title: 'Workflow Efficiency Score',
-      description: 'Current operational efficiency with identified improvement areas',
-      value: '67/100',
+      title: 'Enterprise Efficiency Score',
+      description: 'Current operational efficiency across Fortune 500 enterprise systems',
+      value: '73/100',
       trend: 'up',
       importance: 'critical'
     },
     {
       id: '2',
       title: 'Annual Cost Recovery',
-      description: 'Potential cost savings through process automation',
-      value: '$127,000',
+      description: 'Potential cost savings through enterprise automation (based on Wells Fargo, Toyota scale)',
+      value: '$6.8M',
       trend: 'up',
       importance: 'critical'
     },
     {
       id: '3',
       title: 'Time Savings',
-      description: 'Average time saved per case through automation',
-      value: '2.3 minutes',
+      description: 'Average time saved per case through enterprise automation',
+      value: '1.9 minutes',
       trend: 'up',
       importance: 'important'
     },
     {
       id: '4',
       title: 'Process Completion Rate',
-      description: 'Cases completed without manual intervention',
-      value: '78%',
-      trend: 'stable',
+      description: 'Enterprise transactions completed without manual intervention',
+      value: '84%',
+      trend: 'up',
       importance: 'important'
     }
   ]
@@ -88,33 +88,53 @@ export const mockAnalysisData: MockData = {
 export const predefinedQuestions = [
   {
     id: '1',
-    text: 'Identify swivel chair patterns',
-    description: 'Detect frequent app switching behaviors and inefficient transitions',
-    icon: '🔄'
+    text: 'Swivel Chair Patterns',
+    description: 'Detect app switching inefficiencies',
+    icon: '🔄',
+    category: 'Process Efficiency',
+    impact: 'High',
+    estimatedTime: '2-3 min',
+    color: 'from-blue-500 to-cyan-500'
   },
   {
     id: '2',
-    text: 'Find repeated edit instances',
-    description: 'Analyze cases with multiple revision cycles and rework patterns',
-    icon: '✏️'
+    text: 'Repeated Edits',
+    description: 'Find revision cycles and rework',
+    icon: '✏️',
+    category: 'Quality Control',
+    impact: 'High',
+    estimatedTime: '1-2 min',
+    color: 'from-purple-500 to-pink-500'
   },
   {
     id: '3',
-    text: 'Analyze inefficient routing',
-    description: 'Identify wrong department assignments and routing bottlenecks',
-    icon: '🎯'
+    text: 'Inefficient Routing',
+    description: 'Identify wrong assignments',
+    icon: '🎯',
+    category: 'Workflow Optimization',
+    impact: 'Medium',
+    estimatedTime: '2-4 min',
+    color: 'from-green-500 to-emerald-500'
   },
   {
     id: '4',
-    text: 'Detect unnecessary approvals',
-    description: 'Find excessive manager approval bottlenecks in workflows',
-    icon: '✅'
+    text: 'Unnecessary Approvals',
+    description: 'Find approval bottlenecks',
+    icon: '✅',
+    category: 'Approval Management',
+    impact: 'High',
+    estimatedTime: '1-3 min',
+    color: 'from-orange-500 to-red-500'
   },
   {
     id: '5',
-    text: 'Generate efficiency report',
-    description: 'Comprehensive findings summary of all identified inefficiencies',
-    icon: '📈'
+    text: 'Efficiency Report',
+    description: 'Comprehensive findings summary',
+    icon: '📈',
+    category: 'Analytics & Reporting',
+    impact: 'High',
+    estimatedTime: '3-5 min',
+    color: 'from-indigo-500 to-purple-500'
   }
 ];
 
@@ -125,10 +145,10 @@ export const agentConfigurations = [
     description: 'Advanced correlation analysis and insight extraction',
     duration: 3000,
     steps: [
-      'Loading 1,275 records...',
-      'Applying correlation filters...',
+      'Loading 2.8M enterprise records...',
+      'Applying correlation filters across Fortune 500 systems...',
       'Identifying actionable insights...',
-      'Found 847 actionable correlations'
+      'Found 1.85M actionable correlations'
     ]
   },
   {
@@ -137,10 +157,10 @@ export const agentConfigurations = [
     description: 'AI-powered workflow inefficiency detection',
     duration: 4000,
     steps: [
-      'Scanning user behavior patterns...',
-      'Detecting swivel chair instances...',
+      'Scanning enterprise user behavior patterns...',
+      'Detecting swivel chair instances across Salesforce-Oracle-SAP...',
       'Analyzing repeated edit patterns...',
-      'Identified 291 swivel chair cases to Customer Profile system'
+      'Identified 125K swivel chair cases across enterprise systems'
     ]
   },
   {
@@ -149,10 +169,10 @@ export const agentConfigurations = [
     description: 'Intelligent automation strategy development',
     duration: 3000,
     steps: [
-      'Generating automation hypotheses...',
-      'Ranking by impact and effort...',
-      'Calculating ROI potential...',
-      'Generated 12 high-impact automation opportunities'
+      'Generating enterprise automation hypotheses...',
+      'Ranking by enterprise impact and effort...',
+      'Calculating Fortune 500 ROI potential...',
+      'Generated 18 high-impact enterprise automation opportunities'
     ]
   },
   {
@@ -161,10 +181,10 @@ export const agentConfigurations = [
     description: 'Deep-dive workflow bottleneck investigation',
     duration: 5000,
     steps: [
-      'Analyzing workflow bottlenecks...',
-      'Identifying root causes...',
-      'Calculating time and cost impact...',
-      'Analysis complete: 45% time loss in approval workflows'
+      'Analyzing enterprise workflow bottlenecks...',
+      'Identifying root causes across ServiceNow-SAP-Oracle...',
+      'Calculating enterprise time and cost impact...',
+      'Analysis complete: 35% time loss in enterprise approval workflows'
     ]
   },
   {
@@ -187,39 +207,39 @@ export const questionSpecificData = {
     description: 'Detect frequent app switching behaviors and inefficient transitions',
     icon: '🔄',
     findings: {
-      totalSwitches: 1247,
-      avgSwitchesPerUser: 8.3,
+      totalSwitches: 125000,
+      avgSwitchesPerUser: 18.7,
       peakSwitchingHours: ['9:00-11:00 AM', '2:00-4:00 PM'],
       mostSwitchedSystems: [
-        { system: 'CRM ↔ Customer Profile', switches: 291, timeLost: '2.3 min/case' },
-        { system: 'CRM ↔ Billing System', switches: 156, timeLost: '1.8 min/case' },
-        { system: 'Customer Profile ↔ Inventory', switches: 89, timeLost: '1.5 min/case' },
-        { system: 'Billing ↔ Help Desk', switches: 67, timeLost: '1.2 min/case' }
+        { system: 'Salesforce ↔ Oracle Financials', switches: 45000, timeLost: '1.8 min/case' },
+        { system: 'SAP ERP ↔ Workday HCM', switches: 28000, timeLost: '1.9 min/case' },
+        { system: 'Oracle E-Business ↔ ServiceNow', switches: 22000, timeLost: '1.4 min/case' },
+        { system: 'ServiceNow ↔ SAP Ariba', switches: 18000, timeLost: '1.6 min/case' }
       ],
       userImpact: {
-        highImpactUsers: 23,
-        mediumImpactUsers: 45,
-        lowImpactUsers: 32,
-        avgContextLossTime: '45 seconds'
+        highImpactUsers: 2300,
+        mediumImpactUsers: 4500,
+        lowImpactUsers: 3200,
+        avgContextLossTime: '52 seconds'
       },
       recommendations: [
         {
-          title: 'Single-View Customer Dashboard',
-          description: 'Integrate Customer Profile data directly into CRM interface',
-          impact: 'Eliminates 85% of CRM ↔ Customer Profile switches',
+          title: 'Salesforce-Oracle Integration Portal',
+          description: 'Integrate Oracle Financials data directly into Salesforce interface for Fortune 500',
+          impact: 'Eliminates 85% of Salesforce ↔ Oracle Financials switches',
           effort: 'Medium',
-          timeline: '2-3 months',
-          cost: '$25,000',
-          roi: 285
+          timeline: '3-4 months',
+          cost: '$185,000',
+          roi: 485
         },
         {
-          title: 'Universal Search Integration',
-          description: 'Cross-system search capability to reduce manual navigation',
-          impact: 'Reduces 60% of system switching',
-          effort: 'Low',
-          timeline: '1-2 months',
-          cost: '$8,000',
-          roi: 180
+          title: 'Enterprise Universal Search',
+          description: 'Cross-system search across SAP-Oracle-Salesforce for enterprise users',
+          impact: 'Reduces 65% of enterprise system switching',
+          effort: 'Medium',
+          timeline: '2-3 months',
+          cost: '$95,000',
+          roi: 380
         }
       ]
     }
@@ -229,44 +249,44 @@ export const questionSpecificData = {
     description: 'Analyze cases with multiple revision cycles and rework patterns',
     icon: '✏️',
     findings: {
-      totalRepeatedEdits: 456,
-      avgEditsPerCase: 3.2,
+      totalRepeatedEdits: 89000,
+      avgEditsPerCase: 2.8,
       mostProblematicFields: [
-        { field: 'Customer Address', edits: 156, percentage: 34 },
-        { field: 'Product Configuration', edits: 89, percentage: 20 },
-        { field: 'Pricing Information', edits: 67, percentage: 15 },
-        { field: 'Contact Details', edits: 45, percentage: 10 },
-        { field: 'Order Specifications', edits: 99, percentage: 21 }
+        { field: 'SAP Financial Account Numbers', edits: 28000, percentage: 31 },
+        { field: 'Oracle Product Configurations', edits: 19000, percentage: 21 },
+        { field: 'Workday Employee Information', edits: 15000, percentage: 17 },
+        { field: 'Salesforce Contact Details', edits: 12000, percentage: 13 },
+        { field: 'ServiceNow Ticket Classifications', edits: 15000, percentage: 17 }
       ],
       editPatterns: {
-        validationErrors: 234,
-        userConfusion: 123,
-        systemGlitches: 67,
-        dataSyncIssues: 32
+        validationErrors: 34000,
+        userConfusion: 22000,
+        systemGlitches: 18000,
+        dataSyncIssues: 15000
       },
       timeImpact: {
-        avgTimePerEditCycle: '3.2 minutes',
-        totalTimeLost: '24.3 hours/week',
-        userFrustrationScore: 7.8
+        avgTimePerEditCycle: '2.8 minutes',
+        totalTimeLost: '425 hours/week',
+        userFrustrationScore: 6.9
       },
       recommendations: [
         {
-          title: 'Real-Time Field Validation',
-          description: 'Implement immediate validation feedback and auto-correction',
-          impact: 'Reduces 70% of repeated edits',
+          title: 'Enterprise Real-Time Validation',
+          description: 'Implement immediate validation across SAP-Oracle-Workday systems',
+          impact: 'Reduces 72% of repeated edits across enterprise systems',
           effort: 'Medium',
-          timeline: '1-2 months',
-          cost: '$12,000',
-          roi: 220
+          timeline: '2-3 months',
+          cost: '$145,000',
+          roi: 420
         },
         {
-          title: 'Smart Auto-Complete',
-          description: 'AI-powered field suggestions based on historical data',
-          impact: 'Prevents 50% of validation errors',
+          title: 'AI-Powered Enterprise Auto-Complete',
+          description: 'Fortune 500 AI suggestions based on enterprise historical data',
+          impact: 'Prevents 58% of validation errors across enterprise',
           effort: 'High',
-          timeline: '3-4 months',
-          cost: '$35,000',
-          roi: 150
+          timeline: '4-5 months',
+          cost: '$285,000',
+          roi: 350
         }
       ]
     }
@@ -276,43 +296,43 @@ export const questionSpecificData = {
     description: 'Identify wrong department assignments and routing bottlenecks',
     icon: '🎯',
     findings: {
-      totalMisroutes: 234,
-      misrouteRate: 23,
+      totalMisroutes: 18500,
+      misrouteRate: 18,
       avgResolutionTime: {
-        correctRoute: '2.3 hours',
-        misroute: '4.7 hours',
-        difference: '104% increase'
+        correctRoute: '1.9 hours',
+        misroute: '3.8 hours',
+        difference: '85% increase'
       },
       commonMisroutes: [
-        { from: 'Technical Support', to: 'Customer Service', count: 105, percentage: 45 },
-        { from: 'Sales', to: 'Billing', count: 67, percentage: 29 },
-        { from: 'General Inquiry', to: 'Specialized Teams', count: 45, percentage: 19 },
-        { from: 'Billing', to: 'Technical Support', count: 17, percentage: 7 }
+        { from: 'ServiceNow Technical', to: 'Oracle Financial Support', count: 8200, percentage: 44 },
+        { from: 'SAP Sales Module', to: 'Workday HR', count: 5400, percentage: 29 },
+        { from: 'Salesforce General', to: 'Oracle Specialized Teams', count: 3100, percentage: 17 },
+        { from: 'Oracle Billing', to: 'SAP Technical', count: 1800, percentage: 10 }
       ],
       impactMetrics: {
-        customerSatisfactionDrop: 18,
-        escalationRate: 34,
-        resolutionTimeIncrease: 104,
-        costPerMisroute: '$45'
+        customerSatisfactionDrop: 15,
+        escalationRate: 28,
+        resolutionTimeIncrease: 85,
+        costPerMisroute: '$125'
       },
       recommendations: [
         {
-          title: 'AI-Powered Case Classification',
-          description: 'Machine learning model for automatic case routing',
-          impact: 'Reduces misroutes by 85%',
+          title: 'Enterprise AI Case Classification',
+          description: 'ML model for automatic routing across ServiceNow-Oracle-SAP enterprise systems',
+          impact: 'Reduces enterprise misroutes by 88%',
           effort: 'High',
-          timeline: '4-5 months',
-          cost: '$45,000',
-          roi: 200
+          timeline: '5-6 months',
+          cost: '$365,000',
+          roi: 520
         },
         {
-          title: 'Dynamic Load Balancing',
-          description: 'Intelligent routing based on team capacity and expertise',
-          impact: 'Improves resolution time by 40%',
+          title: 'Enterprise Dynamic Load Balancing',
+          description: 'Intelligent routing across Fortune 500 team capacity and expertise',
+          impact: 'Improves enterprise resolution time by 45%',
           effort: 'Medium',
-          timeline: '2-3 months',
-          cost: '$18,000',
-          roi: 175
+          timeline: '3-4 months',
+          cost: '$195,000',
+          roi: 425
         }
       ]
     }
@@ -322,39 +342,39 @@ export const questionSpecificData = {
     description: 'Find excessive manager approval bottlenecks in workflows',
     icon: '✅',
     findings: {
-      totalApprovals: 567,
-      unnecessaryApprovals: 193,
-      unnecessaryRate: 34,
+      totalApprovals: 45000,
+      unnecessaryApprovals: 12600,
+      unnecessaryRate: 28,
       approvalTypes: [
-        { type: 'Discount Approvals', avgWait: '2.4 hours', unnecessary: 45 },
-        { type: 'Account Changes', avgWait: '1.8 hours', unnecessary: 38 },
-        { type: 'Refund Requests', avgWait: '3.1 hours', unnecessary: 67 },
-        { type: 'Credit Adjustments', avgWait: '2.7 hours', unnecessary: 43 }
+        { type: 'SAP Financial Approvals', avgWait: '2.1 hours', unnecessary: 3800 },
+        { type: 'Oracle Account Changes', avgWait: '1.6 hours', unnecessary: 3200 },
+        { type: 'Workday Refund Requests', avgWait: '2.8 hours', unnecessary: 3100 },
+        { type: 'Salesforce Credit Adjustments', avgWait: '2.3 hours', unnecessary: 2500 }
       ],
       bottleneckAnalysis: {
-        managerAvailability: '30 min - 4+ hours',
-        lowRiskThreshold: '$500',
-        autoApprovableCases: 34,
+        managerAvailability: '45 min - 6+ hours',
+        lowRiskThreshold: '$5,000',
+        autoApprovableCases: 28,
         peakApprovalTimes: ['10:00-12:00 PM', '3:00-5:00 PM']
       },
       recommendations: [
         {
-          title: 'Rule-Based Auto-Approval',
-          description: 'Automated approval for low-risk, standard requests',
-          impact: 'Eliminates 65% of unnecessary approvals',
+          title: 'Enterprise Rule-Based Auto-Approval',
+          description: 'Automated approval for low-risk requests across SAP-Oracle-Workday',
+          impact: 'Eliminates 68% of unnecessary enterprise approvals',
           effort: 'Medium',
-          timeline: '2-3 months',
-          cost: '$22,000',
-          roi: 250
+          timeline: '3-4 months',
+          cost: '$175,000',
+          roi: 580
         },
         {
-          title: 'Escalation Matrix',
-          description: 'Smart routing to appropriate approval levels',
-          impact: 'Reduces approval time by 60%',
-          effort: 'Low',
-          timeline: '1-2 months',
-          cost: '$8,000',
-          roi: 300
+          title: 'Enterprise Escalation Matrix',
+          description: 'Smart routing across Fortune 500 approval hierarchies',
+          impact: 'Reduces enterprise approval time by 65%',
+          effort: 'Medium',
+          timeline: '2-3 months',
+          cost: '$125,000',
+          roi: 650
         }
       ]
     }
@@ -364,40 +384,40 @@ export const questionSpecificData = {
     description: 'Comprehensive findings summary of all identified inefficiencies',
     icon: '📈',
     findings: {
-      overallEfficiency: 67,
-      industryBenchmark: 78,
-      improvementPotential: 16,
-      totalWasteIdentified: 415000,
-      automationInvestment: 180000,
-      netAnnualSavings: 235000,
-      roi: 131,
+      overallEfficiency: 73,
+      industryBenchmark: 82,
+      improvementPotential: 12,
+      totalWasteIdentified: 8200000,
+      automationInvestment: 1850000,
+      netAnnualSavings: 6800000,
+      roi: 268,
       priorityAreas: [
-        { area: 'System Integration', impact: 'High', effort: 'Medium', roi: 285 },
-        { area: 'Process Automation', impact: 'High', effort: 'Low', roi: 220 },
-        { area: 'Workflow Optimization', impact: 'Medium', effort: 'Medium', roi: 180 },
-        { area: 'Data Synchronization', impact: 'Medium', effort: 'High', roi: 150 }
+        { area: 'Enterprise System Integration', impact: 'High', effort: 'Medium', roi: 485 },
+        { area: 'Fortune 500 Process Automation', impact: 'High', effort: 'Medium', roi: 420 },
+        { area: 'Enterprise Workflow Optimization', impact: 'High', effort: 'Medium', roi: 380 },
+        { area: 'Multi-System Data Synchronization', impact: 'High', effort: 'High', roi: 350 }
       ],
       implementationPhases: [
         {
-          phase: 'Quick Wins',
-          timeline: '0-3 months',
-          investment: '$45,000',
-          savings: '$45,000',
-          initiatives: ['Field validation', 'Basic automation rules', 'Approval thresholds']
+          phase: 'Enterprise Quick Wins',
+          timeline: '0-4 months',
+          investment: '$485,000',
+          savings: '$1,200,000',
+          initiatives: ['Enterprise field validation', 'Multi-system automation rules', 'Approval thresholds']
         },
         {
-          phase: 'System Integration',
-          timeline: '3-6 months',
-          investment: '$75,000',
-          savings: '$65,000',
-          initiatives: ['API integrations', 'Intelligent routing', 'Automated workflows']
+          phase: 'Fortune 500 System Integration',
+          timeline: '4-8 months',
+          investment: '$785,000',
+          savings: '$2,400,000',
+          initiatives: ['Salesforce-Oracle-SAP integrations', 'Enterprise intelligent routing', 'Automated workflows']
         },
         {
-          phase: 'Advanced Automation',
-          timeline: '6-12 months',
-          investment: '$60,000',
-          savings: '$127,000',
-          initiatives: ['ML models', 'Workflow orchestration', 'Advanced analytics']
+          phase: 'Advanced Enterprise Automation',
+          timeline: '8-15 months',
+          investment: '$580,000',
+          savings: '$3,200,000',
+          initiatives: ['Enterprise ML models', 'Multi-system workflow orchestration', 'Fortune 500 analytics']
         }
       ]
     }
@@ -409,60 +429,60 @@ export const analysisHistory = [
     id: '1',
     question: 'Identify swivel chair patterns',
     questionKey: 'swivel-chair',
-    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+    timestamp: new Date('2024-10-20T14:30:00').toISOString(),
     status: 'completed' as const,
-    summary: 'Found 1,247 system switches with 291 CRM ↔ Customer Profile switches',
-    keyMetric: '1,247 switches',
+    summary: 'Found 125K system switches across Salesforce ↔ Oracle Financials enterprise systems',
+    keyMetric: '125K switches',
     icon: '🔄'
   },
   {
     id: '2',
     question: 'Find repeated edit instances',
     questionKey: 'repeated-edits',
-    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(), // 4 hours ago
+    timestamp: new Date('2024-10-19T16:45:00').toISOString(),
     status: 'completed' as const,
-    summary: 'Identified 456 repeated edits with Customer Address being most problematic',
-    keyMetric: '456 edits',
+    summary: 'Identified 89K repeated edits across SAP ERP and Workday HCM systems',
+    keyMetric: '89K edits',
     icon: '✏️'
   },
   {
     id: '3',
     question: 'Analyze inefficient routing',
     questionKey: 'inefficient-routing',
-    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(), // 6 hours ago
+    timestamp: new Date('2024-10-18T11:20:00').toISOString(),
     status: 'completed' as const,
-    summary: '23% misroute rate with 104% increase in resolution time',
-    keyMetric: '23% misroute',
+    summary: '18% misroute rate with 85% increase in ServiceNow resolution time',
+    keyMetric: '18% misroute',
     icon: '🎯'
   },
   {
     id: '4',
     question: 'Detect unnecessary approvals',
     questionKey: 'unnecessary-approvals',
-    timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(), // 8 hours ago
+    timestamp: new Date('2024-10-17T13:10:00').toISOString(),
     status: 'completed' as const,
-    summary: '34% unnecessary approval rate with 193 unnecessary approvals',
-    keyMetric: '34% unnecessary',
+    summary: '28% unnecessary approval rate across Oracle E-Business workflows',
+    keyMetric: '28% unnecessary',
     icon: '✅'
   },
   {
     id: '5',
     question: 'Generate efficiency report',
     questionKey: 'efficiency-report',
-    timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(), // 12 hours ago
+    timestamp: new Date('2024-10-16T09:15:00').toISOString(),
     status: 'completed' as const,
-    summary: '67% overall efficiency with $235,000 annual savings potential',
-    keyMetric: '67% efficiency',
+    summary: '73% overall efficiency with $6.8M annual savings potential across Fortune 500',
+    keyMetric: '73% efficiency',
     icon: '📈'
   },
   {
     id: '6',
     question: 'Identify swivel chair patterns',
     questionKey: 'swivel-chair',
-    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+    timestamp: new Date('2024-10-15T15:25:00').toISOString(),
     status: 'completed' as const,
-    summary: 'Previous analysis showed 1,156 switches with similar patterns',
-    keyMetric: '1,156 switches',
+    summary: 'Previous analysis showed 118K switches across enterprise systems',
+    keyMetric: '118K switches',
     icon: '🔄'
   }
 ];
@@ -471,107 +491,108 @@ export const detailedFindings = {
   userBehaviorPatterns: [
     {
       id: '1',
-      pattern: 'Swivel Chair Behavior',
-      frequency: 291,
+      pattern: 'Enterprise Swivel Chair Behavior',
+      frequency: 45000,
       impact: 'high' as const,
-      description: 'Users frequently switch between CRM and Customer Profile systems',
-      timeLost: '2.3 minutes per case',
-      costImpact: '$45,000 annually',
-      recommendation: 'Implement single-view customer dashboard'
+      description: 'Users frequently switch between Salesforce and Oracle Financials enterprise systems',
+      timeLost: '1.8 minutes per case',
+      costImpact: '$2.4M annually',
+      recommendation: 'Implement Salesforce-Oracle integration portal'
     },
     {
       id: '2',
-      pattern: 'Repeated Field Edits',
-      frequency: 156,
-      impact: 'medium' as const,
-      description: 'Users edit the same fields multiple times due to validation issues',
-      timeLost: '1.8 minutes per case',
-      costImpact: '$28,000 annually',
-      recommendation: 'Enhance field validation and auto-complete'
+      pattern: 'SAP Field Edit Repetition',
+      frequency: 28000,
+      impact: 'high' as const,
+      description: 'Users edit SAP financial fields multiple times due to validation complexity',
+      timeLost: '1.9 minutes per case',
+      costImpact: '$1.8M annually',
+      recommendation: 'Enhance SAP-Oracle field validation and auto-complete'
     },
     {
       id: '3',
-      pattern: 'Approval Bottlenecks',
-      frequency: 89,
+      pattern: 'ServiceNow Approval Bottlenecks',
+      frequency: 12600,
       impact: 'high' as const,
-      description: 'Cases stuck in approval workflows for extended periods',
-      timeLost: '4.2 minutes per case',
-      costImpact: '$52,000 annually',
-      recommendation: 'Implement automated approval routing'
+      description: 'Enterprise cases stuck in ServiceNow approval workflows',
+      timeLost: '2.8 minutes per case',
+      costImpact: '$1.5M annually',
+      recommendation: 'Implement enterprise automated approval routing'
     },
     {
       id: '4',
-      pattern: 'Manual Data Entry',
-      frequency: 234,
-      impact: 'medium' as const,
-      description: 'Redundant data entry across multiple systems',
-      timeLost: '3.1 minutes per case',
-      costImpact: '$38,000 annually',
-      recommendation: 'Create data synchronization automation'
+      pattern: 'Multi-System Data Entry',
+      frequency: 22000,
+      impact: 'high' as const,
+      description: 'Redundant data entry across Oracle-SAP-Workday enterprise systems',
+      timeLost: '2.1 minutes per case',
+      costImpact: '$1.1M annually',
+      recommendation: 'Create enterprise data synchronization automation'
     }
   ],
   efficiencyMetrics: {
-    overallEfficiency: 67,
-    processCompletionRate: 78,
-    averageCaseTime: 12.4,
-    automationReadiness: 84,
-    costSavingsPotential: 127000,
-    timeSavingsPotential: 8.2
+    overallEfficiency: 73,
+    processCompletionRate: 84,
+    averageCaseTime: 9.8,
+    automationReadiness: 88,
+    costSavingsPotential: 6800000,
+    timeSavingsPotential: 18.5
   },
   systemAnalysis: {
     mostUsedSystems: [
-      { name: 'CRM System', usage: 45, efficiency: 72 },
-      { name: 'Customer Profile', usage: 38, efficiency: 68 },
-      { name: 'Approval Workflow', usage: 28, efficiency: 54 },
-      { name: 'Reporting Dashboard', usage: 22, efficiency: 81 }
+      { name: 'Salesforce Enterprise', usage: 48, efficiency: 78 },
+      { name: 'Oracle Financials', usage: 42, efficiency: 74 },
+      { name: 'SAP ERP', usage: 39, efficiency: 71 },
+      { name: 'ServiceNow', usage: 35, efficiency: 69 },
+      { name: 'Workday HCM', usage: 28, efficiency: 82 }
     ],
     workflowStages: [
-      { stage: 'Data Entry', time: 3.2, efficiency: 75 },
-      { stage: 'Validation', time: 2.8, efficiency: 68 },
-      { stage: 'Approval', time: 4.1, efficiency: 54 },
-      { stage: 'Processing', time: 2.3, efficiency: 82 }
+      { stage: 'Enterprise Data Entry', time: 2.8, efficiency: 79 },
+      { stage: 'Multi-System Validation', time: 2.1, efficiency: 74 },
+      { stage: 'Fortune 500 Approval', time: 3.2, efficiency: 65 },
+      { stage: 'Enterprise Processing', time: 1.7, efficiency: 86 }
     ]
   },
   recommendations: [
     {
       id: '1',
       priority: 'critical' as const,
-      title: 'Customer Profile Integration',
-      description: 'Eliminate manual switching between CRM and Customer Profile systems',
-      implementation: '3-4 months',
-      cost: '$25,000',
-      roi: 285,
-      impact: 'Eliminates 291 swivel chair instances'
+      title: 'Salesforce-Oracle Enterprise Integration',
+      description: 'Eliminate manual switching between Salesforce and Oracle Financials across Fortune 500',
+      implementation: '4-5 months',
+      cost: '$185,000',
+      roi: 485,
+      impact: 'Eliminates 45,000 enterprise swivel chair instances'
     },
     {
       id: '2',
-      priority: 'high' as const,
-      title: 'Smart Field Validation',
-      description: 'Implement intelligent form validation to reduce repeated edits',
-      implementation: '1-2 months',
-      cost: '$8,000',
-      roi: 180,
-      impact: 'Reduces 156 repeated edit cases'
+      priority: 'critical' as const,
+      title: 'Enterprise Field Validation',
+      description: 'Implement intelligent validation across SAP-Oracle-Workday systems',
+      implementation: '2-3 months',
+      cost: '$145,000',
+      roi: 420,
+      impact: 'Reduces 28,000 SAP repeated edit cases'
     },
     {
       id: '3',
       priority: 'high' as const,
-      title: 'Automated Approval Routing',
-      description: 'Streamline approval processes with intelligent routing',
-      implementation: '2-3 months',
-      cost: '$15,000',
-      roi: 220,
-      impact: 'Recovers 45% time loss in approvals'
+      title: 'ServiceNow Enterprise Approval Routing',
+      description: 'Streamline Fortune 500 approval processes with intelligent routing',
+      implementation: '3-4 months',
+      cost: '$175,000',
+      roi: 580,
+      impact: 'Recovers 65% time loss in enterprise approvals'
     },
     {
       id: '4',
-      priority: 'medium' as const,
-      title: 'Predictive Data Entry',
-      description: 'AI-powered auto-completion and data synchronization',
-      implementation: '4-5 months',
-      cost: '$35,000',
-      roi: 125,
-      impact: 'Reduces manual data entry by 60%'
+      priority: 'high' as const,
+      title: 'Multi-System Data Orchestration',
+      description: 'AI-powered data synchronization across Oracle-SAP-Workday enterprise systems',
+      implementation: '5-6 months',
+      cost: '$285,000',
+      roi: 350,
+      impact: 'Reduces enterprise manual data entry by 72%'
     }
   ]
 };

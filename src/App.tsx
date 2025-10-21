@@ -1,9 +1,12 @@
 import React, { useState, createContext, useContext } from 'react';
 import Dashboard from './components/Dashboard/Dashboard';
+import EnterpriseTable from './components/EnterpriseTable/EnterpriseTable';
 import ChatBot from './components/ChatBot/ChatBot';
 import ReportModal from './components/Report/ReportModal';
 import AgentFindingsExplorer from './components/Report/AgentFindingsExplorer';
+import Header from './components/Dashboard/Header';
 import { generateReportPDF } from './utils/reportGenerator';
+import { EnterpriseRow } from './types';
 
 interface AppContextType {
   showReport: boolean;
@@ -14,6 +17,9 @@ interface AppContextType {
   setShowFindingsExplorer: (show: boolean) => void;
   findingsExplorerTab: string;
   setFindingsExplorerTab: (tab: string) => void;
+  showDashboard: boolean;
+  setShowDashboard: (show: boolean) => void;
+  triggerAnalysis?: (row: EnterpriseRow) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -31,6 +37,8 @@ function App() {
   const [selectedQuestion, setSelectedQuestion] = useState<string>('');
   const [showFindingsExplorer, setShowFindingsExplorer] = useState(false);
   const [findingsExplorerTab, setFindingsExplorerTab] = useState('overview');
+  const [showDashboard, setShowDashboard] = useState(false); // Default to EnterpriseTable view
+  const [triggerAnalysisData, setTriggerAnalysisData] = useState<EnterpriseRow | null>(null);
 
   const handleDownloadReport = () => {
     generateReportPDF();
@@ -39,6 +47,10 @@ function App() {
   const handleHistoryItemClick = (question: string) => {
     setSelectedQuestion(question);
     setFindingsExplorerTab('overview');
+  };
+
+  const triggerAnalysis = (row: EnterpriseRow) => {
+    setTriggerAnalysisData(row);
   };
 
   return (
@@ -50,11 +62,15 @@ function App() {
       showFindingsExplorer,
       setShowFindingsExplorer,
       findingsExplorerTab,
-      setFindingsExplorerTab
+      setFindingsExplorerTab,
+      showDashboard,
+      setShowDashboard,
+      triggerAnalysis
     }}>
       <div className="App">
-        <Dashboard />
-        <ChatBot />
+        <Header />
+        {showDashboard ? <Dashboard /> : <EnterpriseTable onRunAnalysis={triggerAnalysis} />}
+        <ChatBot triggerData={triggerAnalysisData} onTriggerComplete={() => setTriggerAnalysisData(null)} />
         <ReportModal
           isOpen={showReport}
           onClose={() => setShowReport(false)}

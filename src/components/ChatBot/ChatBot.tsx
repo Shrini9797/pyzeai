@@ -1,14 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Mic, Paperclip, RefreshCw } from 'lucide-react';
-import { Message, ChatState } from '../../types';
+import { Message, ChatState, EnterpriseRow } from '../../types';
 import { predefinedQuestions } from '../../services/mockData';
 import { useAppContext } from '../../App';
 import ChatMessage from './ChatMessage';
 import PredefinedQuestions from './PredefinedQuestions';
 import AgentProcessing from '../Agents/AgentProcessing';
 
-const ChatBot: React.FC = () => {
+interface ChatBotProps {
+  triggerData?: EnterpriseRow | null;
+  onTriggerComplete?: () => void;
+}
+
+const ChatBot: React.FC<ChatBotProps> = ({ triggerData, onTriggerComplete }) => {
   const { setShowReport, setSelectedQuestion } = useAppContext();
   const [isOpen, setIsOpen] = useState(false);
   const [chatState, setChatState] = useState<ChatState>({
@@ -26,6 +31,31 @@ const ChatBot: React.FC = () => {
   };
 
   useEffect(scrollToBottom, [chatState.messages]);
+
+  // Handle external trigger from table
+  useEffect(() => {
+    if (triggerData) {
+      setIsOpen(true);
+      const question = `Analyze the workflow data for ${triggerData.customerName} using ${triggerData.enterpriseSystem} system (collected from ${triggerData.dataCollectedFrom} to ${triggerData.dataCollectedTo})`;
+      
+      setTimeout(() => {
+        addMessage(question, 'user');
+        setSelectedQuestion(question);
+        
+        setTimeout(() => {
+          addMessage('Starting comprehensive multi-agent analysis for this enterprise system...', 'bot');
+          setChatState(prev => ({
+            ...prev,
+            isProcessing: true
+          }));
+        }, 500);
+        
+        if (onTriggerComplete) {
+          onTriggerComplete();
+        }
+      }, 300);
+    }
+  }, [triggerData]);
 
   const addMessage = (content: string, type: 'user' | 'bot') => {
     const message: Message = {
@@ -139,7 +169,7 @@ const ChatBot: React.FC = () => {
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: 400, y: 100 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-6 right-6 w-[420px] h-[680px] bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl z-50 overflow-hidden border border-white/60"
+            className="fixed top-6 right-6 w-[420px] h-[680px] bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl z-50 overflow-hidden border border-white/60 max-h-[calc(100vh-3rem)] sm:top-6 sm:right-6 sm:w-[420px] sm:h-[680px] max-sm:top-2 max-sm:right-2 max-sm:w-[calc(100vw-1rem)] max-sm:h-[calc(100vh-1rem)]"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-5 border-b border-slate-200/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
@@ -170,13 +200,49 @@ const ChatBot: React.FC = () => {
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4 h-[480px] bg-gradient-to-b from-transparent to-blue-50/20">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-transparent to-blue-50/20" style={{ height: 'calc(100% - 140px)', minHeight: '400px' }}>
               {chatState.messages.length === 0 ? (
-                <div className="text-center py-8">
-                  <h4 className="text-slate-900 font-bold text-lg mb-2">Welcome to PyZe AI</h4>
-                  <p className="text-slate-600 text-sm mb-6 px-4">
-                    I can help you analyze workflow patterns and identify automation opportunities.
-                  </p>
+                <div className="text-center py-4">
+                  {/* Welcome Header */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-4"
+                  >
+                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                      <span className="text-lg">🤖</span>
+                    </div>
+                    <h4 className="text-slate-900 font-bold text-lg mb-1">Welcome to PyZe AI</h4>
+                    <p className="text-slate-600 text-xs px-2">
+                      Workflow analysis assistant
+                    </p>
+                  </motion.div>
+
+                  {/* Features Preview */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="grid grid-cols-4 gap-1 mb-4 px-1"
+                  >
+                    <div className="bg-blue-50/50 rounded-lg p-2 text-center">
+                      <div className="text-sm mb-0.5">⚡</div>
+                      <div className="text-xs font-medium text-slate-700">Fast</div>
+                    </div>
+                    <div className="bg-green-50/50 rounded-lg p-2 text-center">
+                      <div className="text-sm mb-0.5">🎯</div>
+                      <div className="text-xs font-medium text-slate-700">AI</div>
+                    </div>
+                    <div className="bg-purple-50/50 rounded-lg p-2 text-center">
+                      <div className="text-sm mb-0.5">📊</div>
+                      <div className="text-xs font-medium text-slate-700">Reports</div>
+                    </div>
+                    <div className="bg-orange-50/50 rounded-lg p-2 text-center">
+                      <div className="text-sm mb-0.5">💰</div>
+                      <div className="text-xs font-medium text-slate-700">ROI</div>
+                    </div>
+                  </motion.div>
+
                   <PredefinedQuestions
                     questions={predefinedQuestions}
                     onQuestionClick={handleQuestionClick}

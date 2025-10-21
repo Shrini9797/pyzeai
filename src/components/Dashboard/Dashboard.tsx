@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, DollarSign, FileText, AlertCircle, Clock, CheckCircle, BarChart3, Activity } from 'lucide-react';
 import MetricCard from './MetricCard';
-import Header from './Header';
 
 const Dashboard: React.FC = () => {
   const [activeClient, setActiveClient] = useState(0);
@@ -92,8 +91,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-100 relative overflow-hidden pb-24">
-      <Header />
-
       {/* Main Dashboard Content */}
       <main className="container mx-auto px-6 py-6">
         {/* Top Section - Client Data Carousel */}

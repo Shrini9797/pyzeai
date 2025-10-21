@@ -718,7 +718,7 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                               </div>
                               <div className="flex items-center text-green-600">
                                 <ArrowUpRight className="w-4 h-4 mr-1" />
-                                <span className="text-sm font-medium">+12%</span>
+                                <span className="text-sm font-medium">+15%</span>
                               </div>
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900 mb-1">
@@ -734,7 +734,7 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                               </div>
                               <div className="flex items-center text-green-600">
                                 <ArrowUpRight className="w-4 h-4 mr-1" />
-                                <span className="text-sm font-medium">+285%</span>
+                                <span className="text-sm font-medium">+485%</span>
                               </div>
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900 mb-1">
@@ -750,7 +750,7 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                               </div>
                               <div className="flex items-center text-green-600">
                                 <ArrowUpRight className="w-4 h-4 mr-1" />
-                                <span className="text-sm font-medium">+8.2h</span>
+                                <span className="text-sm font-medium">+18.5h</span>
                               </div>
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900 mb-1">
@@ -766,7 +766,7 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                               </div>
                               <div className="flex items-center text-green-600">
                                 <ArrowUpRight className="w-4 h-4 mr-1" />
-                                <span className="text-sm font-medium">+84%</span>
+                                <span className="text-sm font-medium">+88%</span>
                               </div>
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900 mb-1">
@@ -816,15 +816,15 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                               <div className="flex items-start space-x-3">
                                 <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
                                 <div>
-                                  <p className="text-sm font-medium text-slate-900">291 swivel chair instances</p>
-                                  <p className="text-xs text-slate-600">Users switching between CRM and Customer Profile</p>
+                                  <p className="text-sm font-medium text-slate-900">45K enterprise swivel chair instances</p>
+                                  <p className="text-xs text-slate-600">Users switching between Salesforce and Oracle Financials</p>
                                 </div>
                               </div>
                               <div className="flex items-start space-x-3">
                                 <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0" />
                                 <div>
-                                  <p className="text-sm font-medium text-slate-900">45% time loss in approvals</p>
-                                  <p className="text-xs text-slate-600">Workflow bottlenecks causing delays</p>
+                                  <p className="text-sm font-medium text-slate-900">35% time loss in ServiceNow approvals</p>
+                                  <p className="text-xs text-slate-600">Enterprise workflow bottlenecks across Fortune 500</p>
                                 </div>
                               </div>
                             </div>
@@ -839,15 +839,15 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                               <div className="flex items-start space-x-3">
                                 <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
                                 <div>
-                                  <p className="text-sm font-medium text-slate-900">Smart field validation</p>
-                                  <p className="text-xs text-slate-600">Reduce 156 repeated edit cases</p>
+                                  <p className="text-sm font-medium text-slate-900">Enterprise field validation</p>
+                                  <p className="text-xs text-slate-600">Reduce 28K SAP repeated edit cases</p>
                                 </div>
                               </div>
                               <div className="flex items-start space-x-3">
                                 <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
                                 <div>
-                                  <p className="text-sm font-medium text-slate-900">Automated routing</p>
-                                  <p className="text-xs text-slate-600">Streamline approval processes</p>
+                                  <p className="text-sm font-medium text-slate-900">Salesforce-Oracle integration</p>
+                                  <p className="text-xs text-slate-600">Eliminate Fortune 500 system switching</p>
                                 </div>
                               </div>
                             </div>
