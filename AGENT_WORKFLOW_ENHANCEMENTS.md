@@ -6,7 +6,7 @@ Enhanced the multi-agent workflow visualization with modern, intuitive, and futu
 ## Key Enhancements
 
 ### 1. **Visual Hierarchy & Layout**
-- **Larger, centered header** with animated Brain icon
+- **Larger, centered header** with animated chart icon
 - **Max-width container** for better focus and readability
 - **Increased spacing** between agents (from 4 to 8 units) for better visual separation
 - **Rounded corners** upgraded to `rounded-2xl` for modern aesthetics

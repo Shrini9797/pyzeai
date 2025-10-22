@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   TrendingUp, AlertTriangle, CheckCircle, Clock, DollarSign,
   Users, BarChart3, Activity, Zap, Target,
-  ArrowUpRight, ArrowDownRight, Eye, Brain,
+  ArrowUpRight, ArrowDownRight, Eye,
   Database, Settings, FileText, Download, Share, X, ExternalLink
 } from 'lucide-react';
 import { detailedFindings, questionSpecificData, analysisHistory } from '../../services/mockData';
@@ -709,7 +709,7 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
             <div className="relative z-10 flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-white/90 backdrop-blur-md rounded-xl shadow-lg border border-white/40">
-                  <Brain className="w-8 h-8 text-blue-600" />
+                  <BarChart3 className="w-8 h-8 text-blue-600" />
                 </div>
                 <div>
                   <h1 className="text-3xl font-bold text-slate-900">
@@ -1151,7 +1151,7 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                                   onClick={() => handleNavigateToAgentExplorer(item)}
                                   className="flex items-center gap-1 px-2 py-1 bg-slate-500 text-white rounded text-xs hover:bg-slate-600 transition-colors"
                                 >
-                                  <Brain className="w-3 h-3" />
+                                  <BarChart3 className="w-3 h-3" />
                                   Analysis
                                 </button>
                               </div>

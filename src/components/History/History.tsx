@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   TrendingUp, AlertTriangle, CheckCircle, Clock, DollarSign,
   Users, BarChart3, PieChart, Activity, Zap, Target,
-  ArrowUpRight, ArrowDownRight, Minus, Eye, Brain,
+  ArrowUpRight, ArrowDownRight, Minus, Eye,
   Database, Settings, FileText, Download, Share, X, ExternalLink,
   Search, Filter, RefreshCw, ChevronDown
 } from 'lucide-react';
@@ -385,7 +385,7 @@ const History: React.FC = () => {
                           className="inline-flex items-center gap-1 px-2 py-1.5 bg-gradient-to-r from-slate-500 to-slate-600 text-white rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-300 shadow-sm hover:shadow-md text-xs font-medium"
                           title="Process Analysis"
                         >
-                          <Brain className="w-3 h-3" />
+                          <BarChart3 className="w-3 h-3" />
                           Analysis
                         </button>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Brain, CheckCircle, Loader2, TrendingUp, Filter, Lightbulb, 
+  CheckCircle, Loader2, TrendingUp, Filter, Lightbulb, 
   Search, FileText, Zap, Database, Clock, BarChart3, 
   Cpu, Eye, Target, BarChart, FileBarChart
 } from 'lucide-react';
@@ -93,7 +93,7 @@ const AgentProcessing: React.FC<AgentProcessingProps> = ({ onComplete }) => {
   }, [currentAgentIndex, currentStepIndex, isCompleted, onComplete, startTime]);
 
   const getAgentIcon = (agentId: string) => {
-    const IconComponent = agentIcons[agentId as keyof typeof agentIcons] || Brain;
+    const IconComponent = agentIcons[agentId as keyof typeof agentIcons] || BarChart3;
     return IconComponent;
   };
 

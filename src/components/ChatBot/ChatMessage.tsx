@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Brain, User } from 'lucide-react';
+import { MessageSquare, User } from 'lucide-react';
 import { Message } from '../../types';
 
 interface ChatMessageProps {
@@ -19,7 +19,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     >
       {isBot && (
         <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
-          <Brain className="w-4 h-4 text-white" />
+          <MessageSquare className="w-4 h-4 text-white" />
         </div>
       )}
 

@@ -267,8 +267,8 @@ export const generateComprehensivePDFReport = async (selectedQuestion?: string) 
 
     for (let i = 0; i < possibleModals.length; i++) {
       const element = possibleModals[i] as HTMLElement;
-      // Check if this looks like our modal (has the export button, brain icon, etc.)
-      if (element.querySelector('[class*="Brain"]') ||
+      // Check if this looks like our modal (has the export button, chart icon, etc.)
+      if (element.querySelector('[class*="BarChart"]') ||
           element.querySelector('button[class*="Export"]') ||
           element.textContent?.includes('Agent Findings Explorer')) {
         targetElement = element;
