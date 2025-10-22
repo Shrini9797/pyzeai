@@ -88,6 +88,7 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+
   const uniqueSystems = Array.from(new Set(enterpriseData.map(row => row.enterpriseSystem)));
 
   // Close dropdown when clicking outside
@@ -120,15 +121,31 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-white">
-      <div className="container mx-auto px-6 py-6">
+      <div className="container mx-auto px-6 py-8">
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
+          className="mb-8"
         >
-          <h1 className="text-3xl font-bold text-slate-800 mb-2">Enterprise Analysis</h1>
-          <p className="text-slate-600">Monitor and analyze data across all enterprise systems</p>
+          <div className="bg-white/90 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/40">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-4xl font-bold text-slate-800 mb-3">Enterprise Analysis</h1>
+                <p className="text-lg text-slate-600">Monitor and analyze data across all enterprise systems</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-blue-600">{enterpriseData.length}</div>
+                  <div className="text-sm text-slate-500">Total Systems</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-green-600">{enterpriseData.filter(row => row.lastAnalysisResults !== 'Not Analyzed yet').length}</div>
+                  <div className="text-sm text-slate-500">Analyzed</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Filters and Actions */}
@@ -136,11 +153,12 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="metric-card mb-6"
+          className="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/40 mb-6"
         >
-          <div className="flex flex-wrap gap-4 items-center justify-between">
+          <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
             {/* Search */}
             <div className="flex-1 min-w-[300px]">
+              <label className="block text-sm font-medium text-slate-700 mb-2">Search</label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <input
@@ -148,18 +166,18 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
                   placeholder="Search by customer or system..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-700 shadow-sm"
                 />
               </div>
             </div>
 
             {/* Filter */}
             <div className="flex items-center gap-3">
-              <Filter className="text-slate-600 w-5 h-5" />
+              <label className="text-sm font-medium text-slate-700">Filter by System:</label>
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center justify-between px-4 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 hover:bg-white transition-colors min-w-[180px]"
+                  className="flex items-center justify-between px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-700 hover:bg-slate-50 transition-colors min-w-[200px] shadow-sm"
                 >
                   <span className="truncate">
                     {filterSystem === 'all' ? 'All Systems' : filterSystem}
@@ -184,7 +202,7 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
                             setFilterSystem('all');
                             setIsDropdownOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-2.5 hover:bg-slate-50 transition-colors min-h-[44px] flex items-center ${
+                          className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors flex items-center ${
                             filterSystem === 'all' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-700'
                           }`}
                         >
@@ -197,7 +215,7 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
                               setFilterSystem(system);
                               setIsDropdownOpen(false);
                             }}
-                            className={`w-full text-left px-4 py-2.5 hover:bg-slate-50 transition-colors min-h-[44px] flex items-center ${
+                            className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors flex items-center ${
                               filterSystem === system ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-700'
                             }`}
                           >
@@ -212,22 +230,31 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-2">
-              <button className="p-2.5 bg-white/80 hover:bg-white rounded-xl transition-colors shadow-sm border border-slate-200">
+            <div className="flex items-center gap-3">
+              <button className="flex items-center space-x-2 px-4 py-3 bg-white hover:bg-slate-50 rounded-xl transition-colors shadow-sm border border-slate-200">
                 <RefreshCw className="w-5 h-5 text-slate-600" />
+                <span className="text-sm font-medium text-slate-600">Refresh</span>
               </button>
-              <button className="p-2.5 bg-white/80 hover:bg-white rounded-xl transition-colors shadow-sm border border-slate-200">
+              <button className="flex items-center space-x-2 px-4 py-3 bg-white hover:bg-slate-50 rounded-xl transition-colors shadow-sm border border-slate-200">
                 <Download className="w-5 h-5 text-slate-600" />
+                <span className="text-sm font-medium text-slate-600">Export</span>
               </button>
+
             </div>
           </div>
 
           {/* Results Count */}
-          <div className="mt-4 pt-4 border-t border-slate-200">
-            <p className="text-sm text-slate-600">
-              Showing <span className="font-semibold text-slate-800">{filteredData.length}</span> of{' '}
-              <span className="font-semibold text-slate-800">{enterpriseData.length}</span> records
-            </p>
+          <div className="mt-6 pt-6 border-t border-slate-200">
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-slate-600">
+                Showing <span className="font-semibold text-slate-800">{filteredData.length}</span> of{' '}
+                <span className="font-semibold text-slate-800">{enterpriseData.length}</span> records
+              </p>
+              <div className="flex items-center space-x-4 text-sm text-slate-600">
+                <span>Filter: <span className="font-medium text-slate-800">{filterSystem === 'all' ? 'All Systems' : filterSystem}</span></span>
+                {searchTerm && <span>Search: <span className="font-medium text-slate-800">"{searchTerm}"</span></span>}
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -236,35 +263,35 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="metric-card overflow-hidden"
+          className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/40 overflow-hidden"
         >
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
-                    No
+                <tr className="border-b border-slate-200 bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    #
                   </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
                     Customer Name
                   </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
                     Enterprise System
                   </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
                     Data Collected From
                   </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
                     Data Collected To
                   </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
                     Last Analysis Date
                   </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
                     Last Analysis Results
                   </th>
-                  <th className="px-4 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
-                    Run Analysis
+                  <th className="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -275,40 +302,55 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.02 }}
-                    className="hover:bg-blue-50/30 transition-colors"
+                    className="hover:bg-blue-50/30 transition-colors group"
                   >
-                    <td className="px-4 py-4 text-sm text-slate-700 font-medium">
-                      {row.no}
+                    <td className="px-6 py-4 text-sm text-slate-700 font-medium">
+                      <div className="flex items-center justify-center w-8 h-8 bg-slate-100 rounded-full text-slate-600 font-semibold">
+                        {row.no}
+                      </div>
                     </td>
-                    <td className="px-4 py-4 text-sm text-slate-800 font-semibold">
-                      {row.customerName}
+                    <td className="px-6 py-4 text-sm text-slate-800 font-semibold">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                          {row.customerName.charAt(0)}
+                        </div>
+                        <span>{row.customerName}</span>
+                      </div>
                     </td>
-                    <td className="px-4 py-4 text-sm">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800 border border-blue-200">
+                    <td className="px-6 py-4 text-sm">
+                      <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800 border border-blue-200">
                         {row.enterpriseSystem}
                       </span>
                     </td>
-                    <td className="px-4 py-4 text-sm text-slate-600">
-                      {row.dataCollectedFrom}
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span>{row.dataCollectedFrom}</span>
+                      </div>
                     </td>
-                    <td className="px-4 py-4 text-sm text-slate-600">
-                      {row.dataCollectedTo}
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>{row.dataCollectedTo}</span>
+                      </div>
                     </td>
-                    <td className="px-4 py-4 text-sm text-slate-600">
-                      {row.lastAnalysisDate}
+                    <td className="px-6 py-4 text-sm text-slate-600">
+                      <span className="px-2 py-1 bg-slate-100 rounded-md text-xs font-medium">
+                        {row.lastAnalysisDate}
+                      </span>
                     </td>
-                    <td className="px-4 py-4 text-sm text-slate-700 max-w-md">
-                      <div className={`${row.lastAnalysisResults === 'Not Analyzed yet' ? 'text-orange-600 font-medium' : ''}`}>
+                    <td className="px-6 py-4 text-sm text-slate-700 max-w-md">
+                      <div className={`${row.lastAnalysisResults === 'Not Analyzed yet' ? 'text-orange-600 font-medium bg-orange-50 px-2 py-1 rounded-md' : 'text-slate-700'}`}>
                         {row.lastAnalysisResults}
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-center">
+                    <td className="px-6 py-4 text-center">
                       <button
                         onClick={() => handleRunAnalysis(row)}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-md hover:shadow-lg text-sm font-medium"
+                        className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-md hover:shadow-lg text-xs font-medium group-hover:scale-105 transform"
                       >
-                        <Play className="w-4 h-4" />
-                        Run
+                        <Play className="w-3 h-3" />
+                        Run Analysis
                       </button>
                     </td>
                   </motion.tr>
@@ -316,6 +358,17 @@ const EnterpriseTable: React.FC<EnterpriseTableProps> = ({ onRunAnalysis }) => {
               </tbody>
             </table>
           </div>
+          
+          {/* Table Footer */}
+          {filteredData.length === 0 && (
+            <div className="text-center py-12">
+              <div className="text-slate-400 mb-4">
+                <Search className="w-12 h-12 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-slate-600 mb-2">No records found</h3>
+                <p className="text-slate-500">Try adjusting your search or filter criteria</p>
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
     </div>

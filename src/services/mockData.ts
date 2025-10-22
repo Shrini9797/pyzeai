@@ -427,63 +427,108 @@ export const questionSpecificData = {
 export const analysisHistory = [
   {
     id: '1',
+    customerName: 'Wells Fargo',
+    enterpriseSystem: 'Salesforce',
     question: 'Identify swivel chair patterns',
     questionKey: 'swivel-chair',
     timestamp: new Date('2024-10-20T14:30:00').toISOString(),
+    lastAnalysisDate: '10/20/2024',
     status: 'completed' as const,
-    summary: 'Found 125K system switches across Salesforce ↔ Oracle Financials enterprise systems',
-    keyMetric: '125K switches',
-    icon: '🔄'
+    summary: 'Found 45K system switches between Salesforce ↔ Oracle Financials',
+    keyMetric: '45K switches',
+    icon: '🔄',
+    results: {
+      totalRecords: 250000,
+      costSavings: '$1.2M',
+      timesSaved: '1.8 min/case',
+      efficiencyGain: '23%',
+      automationOpportunities: 12,
+      roi: 285
+    }
   },
   {
     id: '2',
-    question: 'Find repeated edit instances',
-    questionKey: 'repeated-edits',
-    timestamp: new Date('2024-10-19T16:45:00').toISOString(),
+    customerName: 'Toyota Motor Corp.',
+    enterpriseSystem: 'SAP ERP',
+    question: 'Efficiency Report Generation',
+    questionKey: 'efficiency-report',
+    timestamp: new Date('2024-10-18T11:20:00').toISOString(),
+    lastAnalysisDate: '10/18/2024',
     status: 'completed' as const,
-    summary: 'Identified 89K repeated edits across SAP ERP and Workday HCM systems',
-    keyMetric: '89K edits',
-    icon: '✏️'
+    summary: 'Comprehensive analysis of 2.2M supply chain events with $6.8M efficiency gains',
+    keyMetric: '$6.8M savings',
+    icon: '📈',
+    results: {
+      totalRecords: 2200000,
+      costSavings: '$6.8M',
+      timesSaved: '3.5% delivery improvement',
+      efficiencyGain: '78%',
+      automationOpportunities: 18,
+      roi: 520
+    }
   },
   {
     id: '3',
-    question: 'Analyze inefficient routing',
-    questionKey: 'inefficient-routing',
-    timestamp: new Date('2024-10-18T11:20:00').toISOString(),
+    customerName: 'JPMorgan Chase',
+    enterpriseSystem: 'Oracle Finance',
+    question: 'Find repeated edit instances',
+    questionKey: 'repeated-edits',
+    timestamp: new Date('2024-10-17T16:45:00').toISOString(),
+    lastAnalysisDate: '10/17/2024',
     status: 'completed' as const,
-    summary: '18% misroute rate with 85% increase in ServiceNow resolution time',
-    keyMetric: '18% misroute',
-    icon: '🎯'
+    summary: 'Identified 28K repeated edits in financial journal entries',
+    keyMetric: '28K edits',
+    icon: '✏️',
+    results: {
+      totalRecords: 900000,
+      costSavings: '$3.2M',
+      timesSaved: '2.1 min/edit',
+      efficiencyGain: '42%',
+      automationOpportunities: 8,
+      roi: 380
+    }
   },
   {
     id: '4',
-    question: 'Detect unnecessary approvals',
-    questionKey: 'unnecessary-approvals',
-    timestamp: new Date('2024-10-17T13:10:00').toISOString(),
+    customerName: 'Microsoft',
+    enterpriseSystem: 'ServiceNow',
+    question: 'Analyze inefficient routing',
+    questionKey: 'inefficient-routing',
+    timestamp: new Date('2024-10-16T13:10:00').toISOString(),
+    lastAnalysisDate: '10/16/2024',
     status: 'completed' as const,
-    summary: '28% unnecessary approval rate across Oracle E-Business workflows',
-    keyMetric: '28% unnecessary',
-    icon: '✅'
+    summary: '18% misroute rate in ServiceNow ticket routing with $2.8M savings potential',
+    keyMetric: '18% misroute',
+    icon: '🎯',
+    results: {
+      totalRecords: 520000,
+      costSavings: '$2.8M',
+      timesSaved: '1.4 min faster resolution',
+      efficiencyGain: '35%',
+      automationOpportunities: 6,
+      roi: 425
+    }
   },
   {
     id: '5',
-    question: 'Generate efficiency report',
-    questionKey: 'efficiency-report',
-    timestamp: new Date('2024-10-16T09:15:00').toISOString(),
+    customerName: 'Walmart',
+    enterpriseSystem: 'Workday HCM',
+    question: 'Detect unnecessary approvals',
+    questionKey: 'unnecessary-approvals',
+    timestamp: new Date('2024-10-15T09:15:00').toISOString(),
+    lastAnalysisDate: '10/15/2024',
     status: 'completed' as const,
-    summary: '73% overall efficiency with $6.8M annual savings potential across Fortune 500',
-    keyMetric: '73% efficiency',
-    icon: '📈'
-  },
-  {
-    id: '6',
-    question: 'Identify swivel chair patterns',
-    questionKey: 'swivel-chair',
-    timestamp: new Date('2024-10-15T15:25:00').toISOString(),
-    status: 'completed' as const,
-    summary: 'Previous analysis showed 118K switches across enterprise systems',
-    keyMetric: '118K switches',
-    icon: '🔄'
+    summary: '28% unnecessary approval rate in HR workflows affecting 320K employees',
+    keyMetric: '28% unnecessary',
+    icon: '✅',
+    results: {
+      totalRecords: 320000,
+      costSavings: '$2.1M',
+      timesSaved: '2.5% attrition reduction',
+      efficiencyGain: '45%',
+      automationOpportunities: 10,
+      roi: 650
+    }
   }
 ];
 

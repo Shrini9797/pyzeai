@@ -585,7 +585,7 @@ export const generateDetailedHTMLReport = (selectedQuestion?: string) => {
             <div class="section">
                 <h2 class="section-title">Executive Summary</h2>
                 <div class="metrics-grid">
-                    <div class="metric-card">
+                        <div class="metric-card">
                         <div class="metric-value">${reportData.detailedFindings.efficiencyMetrics.overallEfficiency}%</div>
                         <div class="metric-label">Overall Efficiency</div>
                         <div class="metric-description">Current operational efficiency with identified improvement areas</div>

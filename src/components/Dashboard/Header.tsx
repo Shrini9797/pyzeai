@@ -3,11 +3,11 @@ import { Settings, Bell, User, History, LayoutDashboard, ArrowLeft, Table } from
 import { useAppContext } from '../../App';
 
 const Header: React.FC = () => {
-  const { setShowFindingsExplorer, setFindingsExplorerTab, showDashboard, setShowDashboard } = useAppContext();
-  
+  const { showDashboard, setShowDashboard, showHistory, setShowHistory } = useAppContext();
+
   const handleHistoryClick = () => {
-    setFindingsExplorerTab('history');
-    setShowFindingsExplorer(true);
+    setShowDashboard(false);
+    setShowHistory(true);
   };
 
   const handleDashboardToggle = () => {
@@ -43,11 +43,14 @@ const Header: React.FC = () => {
           {/* Action Buttons */}
           <div className="flex items-center space-x-3">
             {/* Table Button */}
-            <button 
-              onClick={() => setShowDashboard(false)}
+            <button
+              onClick={() => {
+                setShowDashboard(false);
+                setShowHistory(false);
+              }}
               className={`flex items-center space-x-2 px-3 py-2.5 rounded-xl transition-colors shadow-sm ${
-                !showDashboard 
-                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' 
+                !showDashboard && !showHistory
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
                   : 'bg-white/80 hover:bg-white text-slate-600'
               }`}
               title="View Enterprise Table"
@@ -55,13 +58,16 @@ const Header: React.FC = () => {
               <Table className="w-5 h-5" />
               <span className="text-sm font-medium">Table</span>
             </button>
-            
+
             {/* Dashboard Button */}
-            <button 
-              onClick={() => setShowDashboard(true)}
+            <button
+              onClick={() => {
+                setShowDashboard(true);
+                setShowHistory(false);
+              }}
               className={`flex items-center space-x-2 px-3 py-2.5 rounded-xl transition-colors shadow-sm ${
-                showDashboard 
-                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' 
+                showDashboard
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
                   : 'bg-white/80 hover:bg-white text-slate-600'
               }`}
               title="View Dashboard"
@@ -69,13 +75,19 @@ const Header: React.FC = () => {
               <LayoutDashboard className="w-5 h-5" />
               <span className="text-sm font-medium">Dashboard</span>
             </button>
-            <button 
+
+            {/* History Button */}
+            <button
               onClick={handleHistoryClick}
-              className="flex items-center space-x-2 px-3 py-2.5 bg-white/80 rounded-xl hover:bg-white transition-colors shadow-sm"
+              className={`flex items-center space-x-2 px-3 py-2.5 rounded-xl transition-colors shadow-sm ${
+                showHistory
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                  : 'bg-white/80 hover:bg-white text-slate-600'
+              }`}
               title="View Analysis History"
             >
-              <History className="w-5 h-5 text-slate-600" />
-              <span className="text-sm font-medium text-slate-600">History</span>
+              <History className="w-5 h-5" />
+              <span className="text-sm font-medium">History</span>
             </button>
             <button className="flex items-center space-x-2 px-3 py-2.5 bg-white/80 rounded-xl hover:bg-white transition-colors shadow-sm">
               <Bell className="w-5 h-5 text-slate-600" />

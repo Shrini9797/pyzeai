@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  TrendingUp, AlertTriangle, CheckCircle, Clock, DollarSign, 
-  Users, BarChart3, PieChart, Activity, Zap, Target, 
-  ArrowUpRight, ArrowDownRight, Minus, Eye, Brain, 
-  Database, Settings, FileText, Download, Share, X
+import {
+  TrendingUp, AlertTriangle, CheckCircle, Clock, DollarSign,
+  Users, BarChart3, PieChart, Activity, Zap, Target,
+  ArrowUpRight, ArrowDownRight, Minus, Eye, Brain,
+  Database, Settings, FileText, Download, Share, X, ExternalLink
 } from 'lucide-react';
 import { detailedFindings, questionSpecificData, analysisHistory } from '../../services/mockData';
 import { DetailedFindings as DetailedFindingsType } from '../../types';
 import { generateComprehensivePDFReport } from '../../utils/reportGenerator';
+import { useAppContext } from '../../App';
 
 interface AgentFindingsExplorerProps {
   isOpen: boolean;
@@ -19,9 +20,147 @@ interface AgentFindingsExplorerProps {
   initialTab?: string;
 }
 
-const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({ 
-  isOpen, 
-  onClose, 
+interface DetailedReportModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  historyItem: any;
+}
+
+const DetailedReportModal: React.FC<DetailedReportModalProps> = ({
+  isOpen,
+  onClose,
+  historyItem
+}) => {
+  if (!isOpen || !historyItem) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl"
+      >
+        {/* Header */}
+        <div className="bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-100 p-6 border-b border-slate-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-white/90 backdrop-blur-md rounded-xl shadow-lg border border-white/40">
+                <span className="text-2xl">{historyItem.icon}</span>
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">{historyItem.question}</h2>
+                <p className="text-slate-600">{historyItem.customerName} - {historyItem.enterpriseSystem}</p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 bg-white/90 backdrop-blur-md rounded-xl text-slate-600 hover:text-slate-800 hover:bg-white transition-all duration-200 border border-white/40 shadow-lg"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+          {/* Key Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 border border-blue-200">
+              <div className="flex items-center justify-between mb-2">
+                <Database className="w-6 h-6 text-blue-600" />
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-slate-900">{historyItem.results.totalRecords.toLocaleString()}</div>
+                  <div className="text-sm text-slate-600">Records Analyzed</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+              <div className="flex items-center justify-between mb-2">
+                <DollarSign className="w-6 h-6 text-green-600" />
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-slate-900">{historyItem.results.costSavings}</div>
+                  <div className="text-sm text-slate-600">Cost Savings</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-200">
+              <div className="flex items-center justify-between mb-2">
+                <TrendingUp className="w-6 h-6 text-purple-600" />
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-slate-900">{historyItem.results.roi}%</div>
+                  <div className="text-sm text-slate-600">ROI</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Analysis Details */}
+          <div className="space-y-6">
+            <div className="bg-slate-50 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-4">Analysis Summary</h3>
+              <p className="text-slate-700 mb-4">{historyItem.summary}</p>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white rounded-lg p-4">
+                  <div className="text-sm text-slate-600 mb-1">Efficiency Gain</div>
+                  <div className="text-xl font-bold text-green-600">{historyItem.results.efficiencyGain}</div>
+                </div>
+                <div className="bg-white rounded-lg p-4">
+                  <div className="text-sm text-slate-600 mb-1">Time Saved</div>
+                  <div className="text-xl font-bold text-blue-600">{historyItem.results.timesSaved}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-4">Automation Opportunities</h3>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-700">Identified Opportunities</span>
+                <span className="text-2xl font-bold text-orange-600">{historyItem.results.automationOpportunities}</span>
+              </div>
+              <div className="mt-4 bg-white rounded-lg p-4">
+                <div className="text-sm text-slate-600 mb-2">Potential Impact</div>
+                <div className="text-lg font-semibold text-slate-900">High automation readiness with significant cost reduction potential</div>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-4">Implementation Timeline</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between bg-white rounded-lg p-3">
+                  <span className="text-slate-700">Phase 1: Quick Wins</span>
+                  <span className="text-sm font-medium text-blue-600">0-3 months</span>
+                </div>
+                <div className="flex items-center justify-between bg-white rounded-lg p-3">
+                  <span className="text-slate-700">Phase 2: System Integration</span>
+                  <span className="text-sm font-medium text-green-600">3-6 months</span>
+                </div>
+                <div className="flex items-center justify-between bg-white rounded-lg p-3">
+                  <span className="text-slate-700">Phase 3: Advanced Automation</span>
+                  <span className="text-sm font-medium text-purple-600">6-12 months</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
+  isOpen,
+  onClose,
   onDownload,
   selectedQuestion,
   onHistoryItemClick,
@@ -30,6 +169,30 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
   const [activeTab, setActiveTab] = useState(initialTab);
   const [isLoading, setIsLoading] = useState(true);
   const [findings] = useState<DetailedFindingsType>(detailedFindings);
+  const [selectedHistoryItem, setSelectedHistoryItem] = useState<any>(null);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
+  // Get navigation functions from App context
+  const { navigateToMockReport, navigateToAgentExplorer, navigateToResultsReport } = useAppContext();
+
+  // Navigation handlers
+  const handleNavigateToMockReport = (historyItem: any) => {
+    // Navigate to mock report with the specific question
+    navigateToMockReport(historyItem.question);
+    console.log('Navigate to Report for:', historyItem.customerName, historyItem.enterpriseSystem);
+  };
+
+  const handleNavigateToAgentExplorer = (historyItem: any) => {
+    // Navigate to agent explorer with patterns tab
+    navigateToAgentExplorer(historyItem.question, 'patterns');
+    console.log('Navigate to Agent Explorer for:', historyItem.customerName, historyItem.enterpriseSystem);
+  };
+
+  const handleNavigateToResultsReport = (historyItem: any) => {
+    // Navigate to results report (recommendations tab)
+    navigateToResultsReport(historyItem.question);
+    console.log('Navigate to Results Report for:', historyItem.customerName, historyItem.enterpriseSystem);
+  };
   
   // Get question-specific data
   const getQuestionKey = (question?: string) => {
@@ -1046,49 +1209,113 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
                         animate={{ opacity: 1, x: 0 }}
                         className="space-y-6"
                       >
-                        <h2 className="text-2xl font-bold text-slate-900 mb-6">Analysis History</h2>
-                        <div className="space-y-4">
-                          {analysisHistory.map((item, index) => (
-                            <motion.div
-                              key={item.id}
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: index * 0.1 }}
-                              className="metric-card p-6 cursor-pointer hover:shadow-lg transition-all duration-300"
-                              onClick={() => {
-                                if (onHistoryItemClick) {
-                                  onHistoryItemClick(item.question);
-                                }
-                                setActiveTab('overview');
-                              }}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-4">
-                                  <div className="text-3xl">{item.icon}</div>
-                                  <div>
-                                    <h3 className="text-lg font-bold text-slate-900">{item.question}</h3>
-                                    <p className="text-sm text-slate-600 mt-1">{item.summary}</p>
-                                    <div className="flex items-center space-x-4 mt-2">
-                                      <span className="text-xs text-slate-500">
-                                        {new Date(item.timestamp).toLocaleDateString()} at {new Date(item.timestamp).toLocaleTimeString()}
-                                      </span>
-                                      <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                        item.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                        item.status === 'in-progress' ? 'bg-blue-100 text-blue-700' :
-                                        'bg-red-100 text-red-700'
-                                      }`}>
-                                        {item.status}
+                        <div className="flex items-center justify-between mb-6">
+                          <h2 className="text-2xl font-bold text-slate-900">Analysis History</h2>
+                          <div className="text-sm text-slate-600">
+                            <span className="font-semibold">{analysisHistory.length}</span> completed analyses
+                          </div>
+                        </div>
+
+                        {/* History Table */}
+                        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/40 overflow-hidden">
+                          <div className="overflow-x-auto">
+                            <table className="w-full">
+                              <thead>
+                                <tr className="border-b border-slate-200 bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
+                                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                    Customer Name
+                                  </th>
+                                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                    Enterprise System
+                                  </th>
+                                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                    Analysis Type
+                                  </th>
+                                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                    Last Analysis Date
+                                  </th>
+                                  <th className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                    Results
+                                  </th>
+                                  <th className="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                    Actions
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-slate-100">
+                                {analysisHistory.map((item, index) => (
+                                  <motion.tr
+                                    key={item.id}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: index * 0.05 }}
+                                    className="hover:bg-blue-50/30 transition-colors group"
+                                  >
+                                    <td className="px-6 py-4 text-sm text-slate-800 font-semibold">
+                                      <div className="flex items-center space-x-3">
+                                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                                          {item.customerName.charAt(0)}
+                                        </div>
+                                        <span>{item.customerName}</span>
                                       </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="text-right">
-                                  <div className="text-xl font-bold text-blue-600">{item.keyMetric}</div>
-                                  <div className="text-sm text-slate-600">Key Metric</div>
-                                </div>
-                              </div>
-                            </motion.div>
-                          ))}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm">
+                                      <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800 border border-blue-200">
+                                        {item.enterpriseSystem}
+                                      </span>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-slate-700">
+                                      <div className="flex items-center space-x-2">
+                                        <span className="text-lg">{item.icon}</span>
+                                        <span className="font-medium">{item.question}</span>
+                                      </div>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-slate-600">
+                                      <span className="px-2 py-1 bg-slate-100 rounded-md text-xs font-medium">
+                                        {item.lastAnalysisDate}
+                                      </span>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-slate-700">
+                                      <div className="space-y-1">
+                                        <div className="font-semibold text-green-600">{item.results.costSavings} saved</div>
+                                        <div className="text-xs text-slate-600">{item.results.totalRecords.toLocaleString()} records</div>
+                                      </div>
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
+                                      <div className="flex items-center justify-center gap-2">
+                                        <button
+                                          onClick={() => handleNavigateToMockReport(item)}
+                                          className="inline-flex items-center gap-1 px-2 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-sm hover:shadow-md text-xs font-medium"
+                                          title="Executive Summary"
+                                        >
+                                          <FileText className="w-3 h-3" />
+                                          Summary
+                                        </button>
+
+                                        <button
+                                          onClick={() => handleNavigateToAgentExplorer(item)}
+                                          className="inline-flex items-center gap-1 px-2 py-1.5 bg-gradient-to-r from-slate-500 to-slate-600 text-white rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-300 shadow-sm hover:shadow-md text-xs font-medium"
+                                          title="Process Analysis"
+                                        >
+                                          <Brain className="w-3 h-3" />
+                                          Analysis
+                                        </button>
+
+                                        <button
+                                          onClick={() => handleNavigateToResultsReport(item)}
+                                          className="inline-flex items-center gap-1 px-2 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-sm hover:shadow-md text-xs font-medium"
+                                          title="Recommendations"
+                                        >
+                                          <BarChart3 className="w-3 h-3" />
+                                          Actions
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </motion.tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -1098,6 +1325,20 @@ const AgentFindingsExplorer: React.FC<AgentFindingsExplorerProps> = ({
             )}
           </AnimatePresence>
         </motion.div>
+
+        {/* Detailed Report Modal */}
+        <AnimatePresence>
+          {isReportModalOpen && (
+            <DetailedReportModal
+              isOpen={isReportModalOpen}
+              onClose={() => {
+                setIsReportModalOpen(false);
+                setSelectedHistoryItem(null);
+              }}
+              historyItem={selectedHistoryItem}
+            />
+          )}
+        </AnimatePresence>
       </motion.div>
     </AnimatePresence>
   );

@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext } from 'react';
 import Dashboard from './components/Dashboard/Dashboard';
 import EnterpriseTable from './components/EnterpriseTable/EnterpriseTable';
+import History from './components/History/History';
 import ChatBot from './components/ChatBot/ChatBot';
 import ReportModal from './components/Report/ReportModal';
 import AgentFindingsExplorer from './components/Report/AgentFindingsExplorer';
@@ -19,7 +20,12 @@ interface AppContextType {
   setFindingsExplorerTab: (tab: string) => void;
   showDashboard: boolean;
   setShowDashboard: (show: boolean) => void;
+  showHistory: boolean;
+  setShowHistory: (show: boolean) => void;
   triggerAnalysis?: (row: EnterpriseRow) => void;
+  navigateToMockReport: (question?: string) => void;
+  navigateToAgentExplorer: (question?: string, tab?: string) => void;
+  navigateToResultsReport: (question?: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -38,6 +44,7 @@ function App() {
   const [showFindingsExplorer, setShowFindingsExplorer] = useState(false);
   const [findingsExplorerTab, setFindingsExplorerTab] = useState('overview');
   const [showDashboard, setShowDashboard] = useState(false); // Default to EnterpriseTable view
+  const [showHistory, setShowHistory] = useState(false);
   const [triggerAnalysisData, setTriggerAnalysisData] = useState<EnterpriseRow | null>(null);
 
   const handleDownloadReport = () => {
@@ -53,11 +60,41 @@ function App() {
     setTriggerAnalysisData(row);
   };
 
+  // Navigation functions
+  const navigateToMockReport = (question?: string) => {
+    if (question) {
+      setSelectedQuestion(question);
+    }
+    setShowFindingsExplorer(false);
+    setShowHistory(false);
+    setShowReport(true);
+  };
+
+  const navigateToAgentExplorer = (question?: string, tab: string = 'patterns') => {
+    if (question) {
+      setSelectedQuestion(question);
+    }
+    setFindingsExplorerTab(tab);
+    setShowReport(false);
+    setShowHistory(false);
+    setShowFindingsExplorer(true);
+  };
+
+  const navigateToResultsReport = (question?: string) => {
+    if (question) {
+      setSelectedQuestion(question);
+    }
+    setFindingsExplorerTab('recommendations');
+    setShowReport(false);
+    setShowHistory(false);
+    setShowFindingsExplorer(true);
+  };
+
   return (
-    <AppContext.Provider value={{ 
-      showReport, 
-      setShowReport, 
-      selectedQuestion, 
+    <AppContext.Provider value={{
+      showReport,
+      setShowReport,
+      selectedQuestion,
       setSelectedQuestion,
       showFindingsExplorer,
       setShowFindingsExplorer,
@@ -65,11 +102,22 @@ function App() {
       setFindingsExplorerTab,
       showDashboard,
       setShowDashboard,
-      triggerAnalysis
+      showHistory,
+      setShowHistory,
+      triggerAnalysis,
+      navigateToMockReport,
+      navigateToAgentExplorer,
+      navigateToResultsReport
     }}>
       <div className="App">
         <Header />
-        {showDashboard ? <Dashboard /> : <EnterpriseTable onRunAnalysis={triggerAnalysis} />}
+        {showHistory ? (
+          <History />
+        ) : showDashboard ? (
+          <Dashboard />
+        ) : (
+          <EnterpriseTable onRunAnalysis={triggerAnalysis} />
+        )}
         <ChatBot triggerData={triggerAnalysisData} onTriggerComplete={() => setTriggerAnalysisData(null)} />
         <ReportModal
           isOpen={showReport}

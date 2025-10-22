@@ -119,13 +119,24 @@ export interface DetailedRecommendation {
 
 export interface AnalysisHistoryItem {
   id: string;
+  customerName: string;
+  enterpriseSystem: string;
   question: string;
   questionKey: string;
   timestamp: string;
+  lastAnalysisDate: string;
   status: 'completed' | 'in-progress' | 'failed';
   summary: string;
   keyMetric: string;
   icon: string;
+  results: {
+    totalRecords: number;
+    costSavings: string;
+    timesSaved: string;
+    efficiencyGain: string;
+    automationOpportunities: number;
+    roi: number;
+  };
 }
 
 export interface DetailedFindings {
