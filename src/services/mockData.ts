@@ -18,7 +18,7 @@ export const mockAnalysisData: MockData = {
       description: 'Automate data sync between Salesforce and Oracle Financials to eliminate 125,000 manual switches across enterprise systems',
       impact: 'high',
       effort: 'medium',
-      roi: 485,
+      roi: 285,
       category: 'System Integration'
     },
     {
@@ -36,7 +36,7 @@ export const mockAnalysisData: MockData = {
       description: 'Streamline ServiceNow approval processes to recover 65% time loss affecting 15,000 enterprise workflow bottlenecks',
       impact: 'high',
       effort: 'high',
-      roi: 620,
+      roi: 320,
       category: 'Workflow Management'
     },
     {
@@ -45,7 +45,7 @@ export const mockAnalysisData: MockData = {
       description: 'AI-powered case routing across Oracle E-Business and SAP Ariba to eliminate wrong department assignments in Fortune 500 operations',
       impact: 'high',
       effort: 'medium',
-      roi: 425,
+      roi: 245,
       category: 'Intelligent Routing'
     }
   ],
@@ -230,7 +230,7 @@ export const questionSpecificData = {
           effort: 'Medium',
           timeline: '3-4 months',
           cost: '$185,000',
-          roi: 485
+          roi: 285
         },
         {
           title: 'Enterprise Universal Search',
@@ -277,7 +277,7 @@ export const questionSpecificData = {
           effort: 'Medium',
           timeline: '2-3 months',
           cost: '$145,000',
-          roi: 420
+          roi: 245
         },
         {
           title: 'AI-Powered Enterprise Auto-Complete',
@@ -323,7 +323,7 @@ export const questionSpecificData = {
           effort: 'High',
           timeline: '5-6 months',
           cost: '$365,000',
-          roi: 520
+          roi: 195
         },
         {
           title: 'Enterprise Dynamic Load Balancing',
@@ -332,7 +332,7 @@ export const questionSpecificData = {
           effort: 'Medium',
           timeline: '3-4 months',
           cost: '$195,000',
-          roi: 425
+          roi: 245
         }
       ]
     }
@@ -365,7 +365,7 @@ export const questionSpecificData = {
           effort: 'Medium',
           timeline: '3-4 months',
           cost: '$175,000',
-          roi: 580
+          roi: 185
         },
         {
           title: 'Enterprise Escalation Matrix',
@@ -374,7 +374,7 @@ export const questionSpecificData = {
           effort: 'Medium',
           timeline: '2-3 months',
           cost: '$125,000',
-          roi: 650
+          roi: 220
         }
       ]
     }
@@ -392,8 +392,8 @@ export const questionSpecificData = {
       netAnnualSavings: 6800000,
       roi: 268,
       priorityAreas: [
-        { area: 'Enterprise System Integration', impact: 'High', effort: 'Medium', roi: 485 },
-        { area: 'Fortune 500 Process Automation', impact: 'High', effort: 'Medium', roi: 420 },
+        { area: 'Enterprise System Integration', impact: 'High', effort: 'Medium', roi: 285 },
+        { area: 'Fortune 500 Process Automation', impact: 'High', effort: 'Medium', roi: 245 },
         { area: 'Enterprise Workflow Optimization', impact: 'High', effort: 'Medium', roi: 380 },
         { area: 'Multi-System Data Synchronization', impact: 'High', effort: 'High', roi: 350 }
       ],
@@ -438,11 +438,11 @@ export const analysisHistory = [
     keyMetric: '45K switches',
     icon: '🔄',
     results: {
-      totalRecords: 250000,
-      costSavings: '$1.2M',
-      timesSaved: '1.8 min/case',
-      efficiencyGain: '23%',
-      automationOpportunities: 12,
+      totalRecords: 1250000,
+      costSavings: '$2.4M',
+      timesSaved: '2.3 min/case',
+      efficiencyGain: '24%',
+      automationOpportunities: 8,
       roi: 285
     }
   },
@@ -460,11 +460,11 @@ export const analysisHistory = [
     icon: '📈',
     results: {
       totalRecords: 2200000,
-      costSavings: '$6.8M',
-      timesSaved: '3.5% delivery improvement',
-      efficiencyGain: '78%',
-      automationOpportunities: 18,
-      roi: 520
+      costSavings: '$8.2M',
+      timesSaved: '4.2% delivery improvement',
+      efficiencyGain: '28%',
+      automationOpportunities: 15,
+      roi: 320
     }
   },
   {
@@ -480,12 +480,12 @@ export const analysisHistory = [
     keyMetric: '28K edits',
     icon: '✏️',
     results: {
-      totalRecords: 900000,
-      costSavings: '$3.2M',
-      timesSaved: '2.1 min/edit',
-      efficiencyGain: '42%',
-      automationOpportunities: 8,
-      roi: 380
+      totalRecords: 890000,
+      costSavings: '$3.8M',
+      timesSaved: '2.8 min/edit',
+      efficiencyGain: '31%',
+      automationOpportunities: 6,
+      roi: 245
     }
   },
   {
@@ -502,11 +502,11 @@ export const analysisHistory = [
     icon: '🎯',
     results: {
       totalRecords: 520000,
-      costSavings: '$2.8M',
-      timesSaved: '1.4 min faster resolution',
-      efficiencyGain: '35%',
-      automationOpportunities: 6,
-      roi: 425
+      costSavings: '$3.1M',
+      timesSaved: '1.7 min faster resolution',
+      efficiencyGain: '22%',
+      automationOpportunities: 5,
+      roi: 195
     }
   },
   {
@@ -523,11 +523,11 @@ export const analysisHistory = [
     icon: '✅',
     results: {
       totalRecords: 320000,
-      costSavings: '$2.1M',
-      timesSaved: '2.5% attrition reduction',
-      efficiencyGain: '45%',
-      automationOpportunities: 10,
-      roi: 650
+      costSavings: '$2.8M',
+      timesSaved: '3.2% attrition reduction',
+      efficiencyGain: '18%',
+      automationOpportunities: 7,
+      roi: 185
     }
   }
 ];
@@ -606,7 +606,7 @@ export const detailedFindings = {
       description: 'Eliminate manual switching between Salesforce and Oracle Financials across Fortune 500',
       implementation: '4-5 months',
       cost: '$185,000',
-      roi: 485,
+      roi: 285,
       impact: 'Eliminates 45,000 enterprise swivel chair instances'
     },
     {
@@ -616,7 +616,7 @@ export const detailedFindings = {
       description: 'Implement intelligent validation across SAP-Oracle-Workday systems',
       implementation: '2-3 months',
       cost: '$145,000',
-      roi: 420,
+      roi: 245,
       impact: 'Reduces 28,000 SAP repeated edit cases'
     },
     {
@@ -626,7 +626,7 @@ export const detailedFindings = {
       description: 'Streamline Fortune 500 approval processes with intelligent routing',
       implementation: '3-4 months',
       cost: '$175,000',
-      roi: 580,
+      roi: 185,
       impact: 'Recovers 65% time loss in enterprise approvals'
     },
     {

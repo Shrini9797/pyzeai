@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Zap, DollarSign, Clock, Target } from 'lucide-react';
+import { Zap, TrendingUp, Clock, Target } from 'lucide-react';
 import { AutomationOpportunity as OpportunityType } from '../../types';
 
 interface AutomationOpportunityProps {
@@ -47,7 +47,7 @@ const AutomationOpportunity: React.FC<AutomationOpportunityProps> = ({ opportuni
         </div>
         <div className="text-right">
           <div className="flex items-center text-green-600 font-bold bg-green-50 px-3 py-1 rounded-lg">
-            <DollarSign className="w-4 h-4 mr-1" />
+            <TrendingUp className="w-4 h-4 mr-1" />
             <span>{opportunity.roi}%</span>
           </div>
         </div>

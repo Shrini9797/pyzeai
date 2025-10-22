@@ -1,3 +1,12 @@
+# PyZe AI Automation Dashboard - Robots.txt
 # https://www.robotstxt.org/robotstxt.html
+
 User-agent: *
-Disallow:
+Allow: /
+
+# Disallow sensitive paths (if any in the future)
+# Disallow: /api/
+# Disallow: /admin/
+
+# Sitemap location (add your sitemap URL when available)
+# Sitemap: https://yourdomain.com/sitemap.xml

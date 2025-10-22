@@ -1,50 +1,184 @@
 import html2pdf from 'html2pdf.js';
 import { mockAnalysisData, detailedFindings, questionSpecificData } from '../services/mockData';
 
-export const generateReportPDF = async () => {
-  // Get the report modal content - capture the EXACT same report as shown in chat
-  const reportElement = document.querySelector('.bg-white.rounded-3xl') as HTMLElement;
-  
-  if (!reportElement) {
-    console.error('Report modal element not found');
-    return;
-  }
+// Helper function to capture UI elements and convert to PDF
+const captureUIToPDF = async (element: HTMLElement, filename: string) => {
+  console.log('Starting PDF capture for element:', element);
+  console.log('Element dimensions:', {
+    clientWidth: element.clientWidth,
+    clientHeight: element.clientHeight,
+    scrollWidth: element.scrollWidth,
+    scrollHeight: element.scrollHeight,
+    offsetWidth: element.offsetWidth,
+    offsetHeight: element.offsetHeight
+  });
 
-  // Capture the exact same report as displayed - no modifications, no regeneration
+  // Store original styles for all potentially affected elements
+  const elementsToRestore: Array<{element: HTMLElement, styles: any}> = [];
+
+  const storeAndModifyStyles = (el: HTMLElement) => {
+    const original = {
+      position: el.style.position,
+      width: el.style.width,
+      height: el.style.height,
+      maxWidth: el.style.maxWidth,
+      maxHeight: el.style.maxHeight,
+      overflow: el.style.overflow,
+      transform: el.style.transform,
+      zIndex: el.style.zIndex,
+      opacity: el.style.opacity,
+      visibility: el.style.visibility,
+      display: el.style.display,
+      backgroundColor: el.style.backgroundColor
+    };
+    elementsToRestore.push({ element: el, styles: original });
+
+    // Optimize for PDF capture
+    el.style.position = 'static';
+    el.style.width = 'auto';
+    el.style.height = 'auto';
+    el.style.maxWidth = 'none';
+    el.style.maxHeight = 'none';
+    el.style.overflow = 'visible';
+    el.style.transform = 'none';
+    el.style.zIndex = 'auto';
+    el.style.opacity = '1';
+    el.style.visibility = 'visible';
+    if (!el.style.backgroundColor || el.style.backgroundColor === 'transparent') {
+      el.style.backgroundColor = '#ffffff';
+    }
+  };
+
+  // Optimize the main element and its children
+  storeAndModifyStyles(element);
+
+  // Also optimize common problematic elements
+  const childElements = element.querySelectorAll('[class*="backdrop"], [class*="blur"], [class*="opacity"], [class*="transform"], [class*="scale"], [class*="rotate"]');
+  childElements.forEach((child) => {
+    if (child instanceof HTMLElement) {
+      storeAndModifyStyles(child);
+    }
+  });
+
+  // Calculate proper dimensions
+  const elementRect = element.getBoundingClientRect();
+  const captureWidth = Math.max(element.scrollWidth, element.offsetWidth, elementRect.width, 800);
+  const captureHeight = Math.max(element.scrollHeight, element.offsetHeight, elementRect.height, 600);
+
+  console.log('Calculated capture dimensions:', { captureWidth, captureHeight });
+
   const options = {
     margin: [5, 5, 5, 5] as [number, number, number, number],
-    filename: `PyZe_AI_Report_${new Date().toISOString().split('T')[0]}.pdf`,
+    filename: `${filename}_${new Date().toISOString().split('T')[0]}.pdf`,
     image: { type: 'jpeg' as const, quality: 0.95 },
     html2canvas: {
-      scale: 1.5, // Lower scale for exact capture
+      scale: 1.5,
       useCORS: true,
       letterRendering: true,
+      backgroundColor: '#ffffff',
+      logging: true,
       allowTaint: true,
-      backgroundColor: null, // Keep original background
-      logging: false,
-      // Capture exact report dimensions
-      width: reportElement.scrollWidth,
-      height: reportElement.scrollHeight,
+      foreignObjectRendering: true,
+      removeContainer: false,
       scrollX: 0,
       scrollY: 0,
-      windowWidth: window.innerWidth,
-      windowHeight: window.innerHeight
+      width: captureWidth,
+      height: captureHeight,
+      windowWidth: captureWidth,
+      windowHeight: captureHeight,
+      x: 0,
+      y: 0
     },
     jsPDF: {
       unit: 'mm' as const,
       format: 'a4' as const,
       orientation: 'portrait' as const,
-      compress: true
+      compress: true,
+      putOnlyUsedFonts: true
     },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    pagebreak: {
+      mode: ['avoid-all', 'css'] as any,
+      before: '.page-break',
+      after: '.section',
+      avoid: '.metric-card'
+    }
   };
 
   try {
-    // Capture the exact same report without any modifications
-    await html2pdf().set(options).from(reportElement).save();
+    // Wait for any animations/transitions to complete
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    console.log('Starting html2pdf generation...');
+
+    // Force reflow to ensure all styles are applied
+    void element.offsetHeight;
+
+    // Generate PDF
+    await html2pdf().set(options).from(element).save();
+
+    console.log('PDF generation completed successfully');
+
+    // Restore all original styles
+    elementsToRestore.forEach(({ element: el, styles }) => {
+      Object.keys(styles).forEach(key => {
+        if (styles[key] !== null && styles[key] !== undefined) {
+          el.style[key as any] = styles[key];
+        } else {
+          el.style.removeProperty(key.replace(/([A-Z])/g, '-$1').toLowerCase());
+        }
+      });
+    });
+
+    return true;
   } catch (error) {
     console.error('Error generating PDF:', error);
+
+    // Restore styles in case of error
+    elementsToRestore.forEach(({ element: el, styles }) => {
+      Object.keys(styles).forEach(key => {
+        if (styles[key] !== null && styles[key] !== undefined) {
+          el.style[key as any] = styles[key];
+        } else {
+          el.style.removeProperty(key.replace(/([A-Z])/g, '-$1').toLowerCase());
+        }
+      });
+    });
+
+    return false;
   }
+};
+
+export const generateReportPDF = async () => {
+  console.log('Starting executive summary PDF report generation...');
+
+  // Strategy 1: Look for detailed report modal with data attribute
+  let targetElement = document.querySelector('[data-pdf-capture="detailed-report-modal"]') as HTMLElement;
+  if (targetElement) {
+    console.log('Found detailed report modal via data attribute');
+    return await captureUIToPDF(targetElement, 'PyZe_Executive_Summary_Report');
+  }
+
+  // Strategy 2: Look for any report modal
+  const reportModal = document.querySelector('[data-testid="report-modal"], [data-testid="detailed-report-modal"], .fixed.inset-0.bg-black') as HTMLElement;
+  if (reportModal) {
+    console.log('Found report modal, searching for content...');
+    const reportContent = reportModal.querySelector('.bg-white.rounded-3xl, .bg-white.rounded-2xl, [class*="bg-white"]') as HTMLElement;
+    if (reportContent) {
+      console.log('Found report content within modal');
+      return await captureUIToPDF(reportContent, 'PyZe_Executive_Summary_Report');
+    }
+  }
+
+  // Strategy 3: Look for main content area
+  const mainContent = document.querySelector('.min-h-screen.bg-gradient-to-br, main, [role="main"]') as HTMLElement;
+  if (mainContent) {
+    console.log('Falling back to main content area');
+    return await captureUIToPDF(mainContent, 'PyZe_Executive_Summary_Report');
+  }
+
+  console.error('No report content found to capture');
+  alert('Unable to find content to export. Please ensure a report is open.');
+  return false;
 };
 
 export const generatePDFReport = async (selectedQuestion?: string) => {
@@ -90,44 +224,101 @@ export const generatePDFReport = async (selectedQuestion?: string) => {
 };
 
 export const generateComprehensivePDFReport = async (selectedQuestion?: string) => {
-  const htmlContent = generateDetailedHTMLReport(selectedQuestion);
-  
-  // Create a temporary div to hold the HTML
-  const element = document.createElement('div');
-  element.innerHTML = htmlContent;
-  element.style.width = '210mm'; // A4 width
-  element.style.margin = '0 auto';
-  element.style.backgroundColor = 'white';
+  console.log('Starting comprehensive PDF report generation...');
 
-  // Temporarily add to DOM for html2pdf processing
-  document.body.appendChild(element);
+  // Multiple strategies to find the AgentFindingsExplorer modal content
+  let targetElement: HTMLElement | null = null;
 
-  const options = {
-    margin: [10, 10, 10, 10] as [number, number, number, number],
-    filename: `PyZe_Agent_Findings_Explorer_${new Date().toISOString().split('T')[0]}.pdf`,
-    image: { type: 'jpeg' as const, quality: 0.98 },
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      letterRendering: true,
-      width: 794, // A4 width in pixels at 96 DPI
-      height: 1123 // A4 height in pixels at 96 DPI
-    },
-    jsPDF: {
-      unit: 'mm' as const,
-      format: 'a4' as const,
-      orientation: 'portrait' as const,
-      compress: true
-    },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-  };
-
-  try {
-    await html2pdf().set(options).from(element).save();
-  } finally {
-    // Clean up - remove the temporary element
-    document.body.removeChild(element);
+  // Strategy 1: Look for modal with specific data attribute (if we add it)
+  targetElement = document.querySelector('[data-pdf-capture="agent-findings-explorer"]') as HTMLElement;
+  if (targetElement) {
+    console.log('Found element via data attribute');
   }
+
+  // Strategy 2: Look for the modal backdrop and find the content within
+  if (!targetElement) {
+    const modalBackdrop = document.querySelector('.fixed.inset-0.bg-black') as HTMLElement;
+    if (modalBackdrop) {
+      console.log('Found modal backdrop, searching for content...');
+
+      // Try multiple content selectors
+      const contentSelectors = [
+        '.glass-light.rounded-3xl',
+        '.bg-white.rounded-3xl',
+        '.rounded-3xl.w-full.max-w-7xl',
+        '[class*="glass-light"]',
+        '[class*="rounded-3xl"]'
+      ];
+
+      for (const selector of contentSelectors) {
+        targetElement = modalBackdrop.querySelector(selector) as HTMLElement;
+        if (targetElement) {
+          console.log(`Found content via selector: ${selector}`);
+          break;
+        }
+      }
+    }
+  }
+
+  // Strategy 3: Look for any modal-like content with AgentFindingsExplorer characteristics
+  if (!targetElement) {
+    console.log('Trying to find modal by characteristics...');
+    const possibleModals = document.querySelectorAll('.fixed, [class*="modal"], [class*="dialog"]');
+
+    for (let i = 0; i < possibleModals.length; i++) {
+      const element = possibleModals[i] as HTMLElement;
+      // Check if this looks like our modal (has the export button, brain icon, etc.)
+      if (element.querySelector('[class*="Brain"]') ||
+          element.querySelector('button[class*="Export"]') ||
+          element.textContent?.includes('Agent Findings Explorer')) {
+        targetElement = element;
+        console.log('Found modal by characteristics');
+        break;
+      }
+    }
+  }
+
+  // Strategy 4: Look for any element with substantial content that looks like our report
+  if (!targetElement) {
+    console.log('Trying to find element with report-like content...');
+    const possibleReportElements = document.querySelectorAll('[class*="metric"], [class*="card"], [class*="grid"]');
+
+    for (let i = 0; i < possibleReportElements.length; i++) {
+      const htmlElement = possibleReportElements[i] as HTMLElement;
+      if (htmlElement.offsetHeight > 400 &&
+          htmlElement.offsetWidth > 600 &&
+          (htmlElement.textContent?.includes('efficiency') ||
+           htmlElement.textContent?.includes('analysis') ||
+           htmlElement.querySelector('[class*="metric"]'))) {
+        targetElement = htmlElement.closest('[class*="modal"], .fixed, [class*="rounded"]') as HTMLElement || htmlElement;
+        console.log('Found element with report-like content');
+        break;
+      }
+    }
+  }
+
+  // Strategy 5: Fallback to main content area
+  if (!targetElement) {
+    console.log('Falling back to main content area...');
+    targetElement = document.querySelector('.min-h-screen.bg-gradient-to-br, main, [role="main"], .container') as HTMLElement;
+  }
+
+  if (targetElement) {
+    console.log('Target element selected:', {
+      tagName: targetElement.tagName,
+      className: targetElement.className,
+      dimensions: {
+        width: targetElement.offsetWidth,
+        height: targetElement.offsetHeight
+      }
+    });
+
+    return await captureUIToPDF(targetElement, 'PyZe_Agent_Findings_Explorer');
+  }
+
+  console.error('No suitable element found for PDF capture');
+  alert('Unable to find content to export. Please ensure the Agent Findings Explorer is open.');
+  return false;
 };
 
 export const generateDetailedHTMLReport = (selectedQuestion?: string) => {
